@@ -1,35 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!--
-CALYTRON: SINGLE-FILE DEPLOY NOTES
-1) Supabase > SQL Editor > run this once:
-- - Run once in Supabase: SQL Editor > New query > Run
-create table if not exists public.app_state (
-  user_id    uuid primary key references auth.users(id) on delete cascade,
-  data       jsonb not null default '{}'::jsonb,
-  updated_at timestamptz not null default now()
-);
-alter table public.app_state enable row level security;
+<!-- Calytron Restaurant Profit -->
+<script>(function(){function ok(s){try{s.setItem('__t','1');s.removeItem('__t');return true}catch(e){return false}}var bad=false;['localStorage','sessionStorage'].forEach(function(n){var good=false;try{good=ok(window[n])}catch(e){}if(!good){bad=true;var m={};var st={getItem:function(k){return Object.prototype.hasOwnProperty.call(m,k)?m[k]:null},setItem:function(k,v){m[k]=String(v)},removeItem:function(k){delete m[k]},clear:function(){m={}},key:function(i){return Object.keys(m)[i]||null}};try{Object.defineProperty(st,'length',{get:function(){return Object.keys(m).length}});Object.defineProperty(window,n,{value:st,configurable:true})}catch(e){}}});window.__storageBlocked=bad})();</script>
 
-drop policy if exists "own row: select" on public.app_state;
-drop policy if exists "own row: insert" on public.app_state;
-drop policy if exists "own row: update" on public.app_state;
-drop policy if exists "own row: delete" on public.app_state;
-create policy "own row: select" on public.app_state for select to authenticated using ((select auth.uid()) = user_id);
-create policy "own row: insert" on public.app_state for insert to authenticated with check ((select auth.uid()) = user_id);
-create policy "own row: update" on public.app_state for update to authenticated using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
-create policy "own row: delete" on public.app_state for delete to authenticated using ((select auth.uid()) = user_id);
-revoke all on public.app_state from anon;
-
-2) Supabase > Authentication > URL Configuration: set Site URL to your final domain (and add it to Redirect URLs).
-3) Paste your Project URL and anon key into window.CALYTRON_CONFIG near the top of this file.
-4) GitHub: commit this file as index.html. Cloudflare Pages: connect the repo, Framework None, no build command, output directory /.
--->
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b1726">
+<meta name="theme-color" content="#0b1726"><meta name="robots" content="noindex,nofollow"><meta name="description" content="Calytron Restaurant Profit: know what every dish earns."><meta name="apple-mobile-web-app-capable" content="yes"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Ccircle cx=%2732%27 cy=%2732%27 r=%2730%27 fill=%27%23b08a3e%27/%3E%3Ctext x=%2732%27 y=%2744%27 font-size=%2738%27 text-anchor=%27middle%27 font-family=%27Georgia%27 fill=%27%23071a14%27%3EC%3C/text%3E%3C/svg%3E">
 <title>Calytron — Restaurant Profit</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f5f7fa;--panel:#fff;--ink:#132238;--muted:#687589;--line:#e5e9ef;--nav:#0b1726;--accent:#0d8a68;--accent2:#116b8f;--danger:#c94b4b;--warn:#b7791f;--good:#16825d;--shadow:0 10px 30px rgba(16,32,52,.07);--r:16px}
@@ -261,19 +239,17 @@ td{border-bottom:1px solid #eceee8}tbody tr:nth-child(even) td{background:#fafbf
 .syncBadge.busy{background:#f6ebd4;color:#8a5f14}.syncBadge.err{background:#f7e4e1;color:#9c372f}.syncBadge.off{background:#e8e8e2;color:#67716c}
 </style>
 <script>
-/* ===== EDIT HERE: your Supabase values (Project Settings > API) =====
-   The anon key is public by design; your data is protected by the Row Level Security in the SQL below.
-   NEVER paste the service_role key here. Leave the placeholders to run in local-only mode. */
-window.CALYTRON_CONFIG={url:'https://YOUR-PROJECT.supabase.co',anonKey:'YOUR-ANON-PUBLIC-KEY'};
+window.CALYTRON_CONFIG={url:'https://lahudcewrmtqpesxwjcs.supabase.co',anonKey:'sb_publishable_GgtbTcDXG7njYMk-vTC-8Q_tXoPl6sH'};
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 </head>
 <body>
+<div id="authGate" class="show" role="dialog" aria-modal="true" aria-label="Account sign in"><div class="authCard"><div class="mark">C</div><h2>Secure sign in</h2><p>Authentication is initializing. Your workspace remains locked until sign-in is verified.</p><div class="authMsg" role="status">If this message remains, refresh the page or contact the administrator.</div></div></div>
 <div class="app">
 <aside class="sidebar" id="sidebar">
  <div class="brand"><b>Calytron</b><span>Restaurant Profit</span></div>
  <nav class="nav" id="nav"></nav>
- <div style="margin-top:20px;padding:12px;color:#8295aa;font-size:11px">Local mode<br>Your data stays on this device.</div>
+ <div style="margin-top:20px;padding:12px;color:#8295aa;font-size:11px">Secure cloud workspace<br>Sign-in required.</div>
 </aside>
 <main class="main">
 <header class="top"><div style="display:flex;gap:10px;align-items:center"><button class="mobileMenu" onclick="toggleSide()">☰</button><div><h1 id="pageTitle">Dashboard</h1><small id="restaurantTop">Urban Grill • ZMW</small></div></div><div class="actions"><button class="btn sm" onclick="openSetup()">⚙ Setup</button><button class="btn sm primary" onclick="openQuick()">＋ Quick Entry</button></div></header>
@@ -415,7 +391,7 @@ const MENU_TEMPLATES={
  'Fast Food':{sections:['Burgers','Chicken','Sides','Combos','Drinks','Desserts'],items:[['Burgers','Classic Burger'],['Burgers','Chicken Burger'],['Chicken','Fried Chicken'],['Chicken','Chicken Wings'],['Sides','French Fries'],['Sides','Coleslaw'],['Combos','Burger Combo'],['Drinks','Soft Drink'],['Desserts','Ice Cream']]},
  'Bar & Grill':{sections:['Starters','Grills','Burgers','Sides','Drinks','Desserts'],items:[['Starters','Chicken Wings'],['Grills','Grilled Chicken'],['Grills','Beef Steak'],['Burgers','Beef Burger'],['Sides','Chips'],['Sides','Salad'],['Drinks','Fresh Juice'],['Drinks','Soft Drink'],['Desserts','Ice Cream']]}
 };
-function freshBuilderItem(cat,name=''){return {id:'b'+Date.now()+Math.random().toString(36).slice(2),name,cat,price:'',target:55,pack:'',other:'',raw:'',description:'',tags:[],popular:0,featured:false};}
+function freshBuilderItem(cat,name=''){return {id:'b'+Date.now()+Math.random().toString(36).slice(2),name,cat,price:'',target:Math.round(100-(db.setup.foodTarget||30)),pack:'',other:'',raw:'',description:'',tags:[],popular:0,featured:false};}
 function openMenuBuilder(){
  menuBuilderState={name:(db.setup.restaurant||'Restaurant')+' Menu',type:'Modern Casual',currency:db.setup.currency||'ZMW',sections:[],items:[],step:1,query:'',costDish:null};
  applyMenuTemplate('Modern Casual',true); renderMenuBuilder();
@@ -548,9 +524,9 @@ function builderReplaceIngredient(id,idx,col,val){const x=menuBuilderState.items
 function builderRemoveIngredient(id,idx){const x=menuBuilderState.items.find(i=>String(i.id)===String(id));if(!x)return;const lines=String(x.raw||'').split(/\n/).filter(Boolean);lines.splice(idx,1);x.raw=lines.join('\n');renderMenuBuilder()}
 function saveBuiltMenu(){
  if(!menuBuilderState.items.some(x=>x.name.trim())){alert('Add at least one dish before saving.');return}
- const valid=menuBuilderState.items.filter(x=>x.name.trim());let added=0,skipped=0;
+ const named=menuBuilderState.items.filter(x=>x.name.trim());const valid=named.filter(x=>+x.price>0);const unpriced=named.length-valid.length;let added=0,skipped=0;if(!valid.length){alert('Add a selling price to at least one dish before saving. Dishes without a price are not saved.');return}
  valid.forEach(x=>{if(db.menu.some(m=>m.name.toLowerCase()===x.name.trim().toLowerCase())){skipped++;return}const ings=String(x.raw||'').split(/\n/).filter(Boolean).map(line=>{let [name,qty,cost]=line.split('|').map(v=>v.trim());return {name,qty:+qty||0,cost:+cost||0}});db.menu.push({id:Date.now()+Math.random(),name:x.name.trim(),cat:x.cat||'Mains',price:+x.price||0,target:+x.target||55,pack:+x.pack||0,other:+x.other||0,ings,description:x.description||'',tags:x.tags||[],popular:+x.popular||0,featured:!!x.featured});added++});
- save();closeModal();render('menu');alert(`${added} added to Menu Profit${skipped?', '+skipped+' skipped (already on your menu)':''}.`)
+ save();closeModal();render('menu');alert(`${added} added to Menu Profit${skipped?', '+skipped+' skipped (already on your menu)':''}${unpriced?', '+unpriced+' not saved (no price yet)':''}.`)
 }
 function downloadBuilderCSV(){
  const rows=[['Section','Dish','Description','Price','Target Margin','Packaging','Other Direct Cost','Ingredients','Tags','Monthly Units']];menuBuilderState.items.forEach(x=>rows.push([x.cat,x.name,x.description,x.price,x.target,x.pack,x.other,String(x.raw||'').replace(/\n/g,' ; '),(x.tags||[]).join(', '),x.popular]));const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=(menuBuilderState.name||'restaurant-menu').replace(/[^a-z0-9]+/gi,'-').toLowerCase()+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)
@@ -817,9 +793,9 @@ cash:{title:'Daily Cash Reconciliation',fields:[['date','Date','date'],['opening
 supplier:{title:'Supplier',fields:[['name','Supplier Name'],['contact','Contact'],['items','Items Supplied']]}
 };
 function openForm(type,id=null){
- let cfg=forms[type], old=id?db[type==='menu'?'menu':type==='sale'?'sales':type==='inventory'?'inventory':type==='purchase'?'purchases':type==='waste'?'waste':type==='expense'?'expenses':type==='labor'?'labor':type==='cash'?'cash':'suppliers'].find(x=>x.id===id):{};
+ let cfg=forms[type], old=id?db[type==='menu'?'menu':type==='sale'?'sales':type==='inventory'?'inventory':type==='purchase'?'purchases':type==='waste'?'waste':type==='expense'?'expenses':type==='labor'?'labor':type==='cash'?'cash':'suppliers'].find(x=>x.id===id)||{}:{};
  let html=`<form onsubmit="submitForm(event,'${type}',${id||'null'})" class="formGrid">`;
- cfg.fields.forEach(([n,l,t])=>{let v=old[n]??(n==='date'?today():n==='payment'?'Cash':n==='target'?55:'');if(n==='ings')html+=`<div class="field" style="grid-column:1/-1"><label>${l}</label><textarea name="${n}" rows="5" placeholder="One ingredient per line: Chicken|0.18|60">${esc(Array.isArray(v)?v.map(i=>[i.name,i.qty,i.cost].join('|')).join('\n'):v)}</textarea><small style="color:var(--muted)">For menu recipes use: Ingredient|quantity|unit cost. Example: Chicken|0.18|60</small></div>`;else if(t==='selectMenu')html+=`<div class="field"><label>${l}</label><input name="${n}" list="menuItemList" value="${esc(v)}" placeholder="Type any dish, or pick from your menu" autocomplete="off" required><datalist id="menuItemList">${db.menu.map(m=>`<option value="${esc(m.name)}">`).join('')}</datalist><small id="saleItemHint" style="color:var(--muted)">Type freely. Menu items fill the price and track food cost.</small></div>`;else if(t==='payment')html+=select(n,l,v,['Cash','Card','Mobile Money','Bank Transfer','Other']);else if(t==='wasteReason')html+=select(n,l,v,['Expired','Overproduction','Spoilage','Burnt','Incorrect Preparation','Damaged','Customer Return','Other']);else if(t==='expenseCat')html+=select(n,l,v,['Rent','Utilities','Salaries','Transport','Marketing','Repairs','Maintenance','Supplies','Licenses','Delivery','Bank Charges','Other']);else html+=field(n,l,v,t==='date'?'date':t==='number'?'number':'text');});
+ cfg.fields.forEach(([n,l,t])=>{let v=old[n]??(n==='date'?today():n==='payment'?'Cash':n==='target'?Math.round(100-(db.setup.foodTarget||30)):'');if(n==='ings')html+=`<div class="field" style="grid-column:1/-1"><label>${l}</label><textarea name="${n}" rows="5" placeholder="One ingredient per line: Chicken|0.18|60">${esc(Array.isArray(v)?v.map(i=>[i.name,i.qty,i.cost].join('|')).join('\n'):v)}</textarea><small style="color:var(--muted)">For menu recipes use: Ingredient|quantity|unit cost. Example: Chicken|0.18|60</small></div>`;else if(t==='selectMenu')html+=`<div class="field"><label>${l}</label><input name="${n}" list="menuItemList" value="${esc(v)}" placeholder="Type any dish, or pick from your menu" autocomplete="off" required><datalist id="menuItemList">${db.menu.map(m=>`<option value="${esc(m.name)}">`).join('')}</datalist><small id="saleItemHint" style="color:var(--muted)">Type freely. Menu items fill the price and track food cost.</small></div>`;else if(t==='payment')html+=select(n,l,v,['Cash','Card','Mobile Money','Bank Transfer','Other']);else if(t==='wasteReason')html+=select(n,l,v,['Expired','Overproduction','Spoilage','Burnt','Incorrect Preparation','Damaged','Customer Return','Other']);else if(t==='expenseCat')html+=select(n,l,v,['Rent','Utilities','Salaries','Transport','Marketing','Repairs','Maintenance','Supplies','Licenses','Delivery','Bank Charges','Other']);else html+=field(n,l,v,t==='date'?'date':t==='number'?'number':'text');});
  html+=`<div style="grid-column:1/-1;display:flex;justify-content:flex-end;gap:8px"><button type="button" class="btn" onclick="closeModal()">Cancel</button><button class="btn primary">${id?'Save Changes':'Save Record'}</button></div></form>`;
  openModal(cfg.title,html);if(type==='sale'){const f=document.querySelector('#modalBody form'),s=f.item,p=f.price;const fill=()=>{const m=db.menu.find(x=>x.name===s.value);if(m&&(!id||!p.value))p.value=m.price};const find=()=>db.menu.find(x=>x.name.toLowerCase()===s.value.trim().toLowerCase()),h=document.getElementById('saleItemHint'),sync=()=>{const m=find();if(m)p.value=m.price;if(h){h.textContent=!s.value.trim()?'Type freely. Menu items fill the price and track food cost.':m?'On your menu: price filled and food cost tracked.':'Not on your menu: sale is recorded, but food cost is not tracked until you add this dish to Menu Profit.'}};s.addEventListener('input',sync);s.addEventListener('change',()=>{const m=find();if(m)s.value=m.name;sync()});if(!id)fill()}
 }
@@ -911,34 +887,437 @@ showView('dashboard');
 let sb=null,uid=null,uemail='',_pt=null;
 const SK='calytron_owner',ST='calytron_stamp';
 function badge(txt,cls){let b=document.getElementById('syncBadge');if(!b){const t=document.querySelector('.top');if(!t)return;b=document.createElement('span');b.id='syncBadge';b.className='syncBadge';t.insertBefore(b,t.lastElementChild)}b.textContent=txt;b.className='syncBadge '+(cls||'')}
-function gate(show,mode){let g=document.getElementById('authGate');if(!g){g=document.createElement('div');g.id='authGate';g.innerHTML='<form class="authCard" id="authForm" novalidate><div class="mark">C</div><h2 id="authTitle">Welcome back</h2><p id="authSub">Sign in to your restaurant workspace.</p><div class="field"><label>Email</label><input name="email" type="email" autocomplete="email" required></div><div class="field" id="pwField"><label>Password</label><input name="password" type="password" autocomplete="current-password" minlength="6"></div><div class="authMsg" id="authMsg" role="alert"></div><button class="btn primary" id="authBtn">Sign in</button><div class="authLinks"><a id="authSwap">Create an account</a><a id="authForgot">Forgot password?</a></div></form>';document.body.appendChild(g);
+function gate(show,mode){let g=document.getElementById('authGate');if(!g){g=document.createElement('div');g.id='authGate';document.body.appendChild(g)}if(!g.dataset.initialized){g.innerHTML='<form class="authCard" id="authForm" novalidate><div class="mark">C</div><h2 id="authTitle">Welcome back</h2><p id="authSub">Sign in to your restaurant workspace.</p><div class="field"><label>Email</label><input name="email" type="email" autocomplete="email" required></div><div class="field" id="pwField"><label>Password</label><input name="password" type="password" autocomplete="current-password" minlength="6"></div><label style="display:flex;gap:8px;align-items:center;font-size:12.5px;margin:2px 0 12px;color:var(--muted)"><input type="checkbox" id="authRemember"'+(localStorage.getItem('calytron_remember')==='1'?' checked':'')+'> Keep me signed in on this device</label><div class="authMsg" id="authMsg" role="alert"></div><button class="btn primary" id="authBtn">Sign in</button><div class="authLinks"><a id="authSwap">Create an account</a><a id="authForgot">Forgot password?</a></div><div style="text-align:center;font-size:11px;color:var(--muted);margin-top:12px">Calytron build 2026.10.10-f · <a href="mailto:support@calytron.co" style="color:inherit">support@calytron.co</a></div></form>';
  let signup=false;const msg=(t,ok)=>{const m=document.getElementById('authMsg');m.textContent=t;m.className='authMsg'+(ok?' ok':'')};
  const setMode=x=>{signup=x;authTitle.textContent=x?'Create your workspace':'Welcome back';authSub.textContent=x?'Start tracking profit in minutes.':'Sign in to your restaurant workspace.';authBtn.textContent=x?'Create account':'Sign in';authSwap.textContent=x?'I already have an account':'Create an account';msg('')};
  authSwap.onclick=()=>setMode(!signup);
  authForgot.onclick=async()=>{const e=authForm.email.value.trim();if(!e)return msg('Enter your email first.');const {error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:location.origin});msg(error?error.message:'Reset link sent. Check your email.',!error)};
- authForm.onsubmit=async ev=>{ev.preventDefault();const e=authForm.email.value.trim(),p=authForm.password.value;if(!e||p.length<6)return msg('Enter your email and a password of at least 6 characters.');authBtn.disabled=true;msg('');
+ authForm.onsubmit=async ev=>{ev.preventDefault();const e=authForm.email.value.trim(),p=authForm.password.value;if(!e||p.length<6)return msg('Enter your email and a password of at least 6 characters.');authBtn.disabled=true;msg('');if(authRemember.checked)localStorage.setItem('calytron_remember','1');else localStorage.removeItem('calytron_remember');
   try{if(signup){const {data,error}=await sb.auth.signUp({email:e,password:p,options:{emailRedirectTo:location.origin}});if(error)msg(error.message);else if(!data.session)msg('Account created. Check your email to confirm, then sign in.',true)}
   else{const {error}=await sb.auth.signInWithPassword({email:e,password:p});if(error)msg(error.message)}}catch(x){msg('Network problem. Check your connection and try again.')}
-  authBtn.disabled=false}}
+  authBtn.disabled=false}
+ g.dataset.initialized='1'}
  g.classList.toggle('show',!!show)}
 async function pushNow(){if(!sb||!uid)return;clearTimeout(_pt);badge('Saving…','busy');const stamp=Date.now();try{const {error}=await sb.from('app_state').upsert({user_id:uid,data:db,updated_at:new Date(stamp).toISOString()});if(error)throw error;localStorage.setItem(ST,stamp);badge('Synced')}catch(e){badge('Not synced: will retry','err');_pt=setTimeout(pushNow,15000)}}
 const _save3=save;save=function(){_save3();if(sb&&uid){badge('Saving…','busy');clearTimeout(_pt);_pt=setTimeout(pushNow,900)}};
 addEventListener('pagehide',()=>{if(_pt)pushNow()});addEventListener('online',()=>{if(sb&&uid)pushNow()});
 async function syncDown(){const {data,error}=await sb.from('app_state').select('data,updated_at').eq('user_id',uid).maybeSingle();if(error){badge('Sync error','err');return}
  const owner=localStorage.getItem(SK),local=+localStorage.getItem(ST)||0;
- if(data){const remote=Date.parse(data.updated_at);if(owner!==uid||remote>local){localStorage.setItem(KEY,JSON.stringify(data.data));localStorage.setItem(SK,uid);localStorage.setItem(ST,remote);location.reload();return}if(local>remote)await pushNow();else badge('Synced')}
+ if(data){const remote=Date.parse(data.updated_at);if(owner!==uid||remote>local){localStorage.setItem(KEY,JSON.stringify(data.data));localStorage.setItem(SK,uid);localStorage.setItem(ST,remote);try{sessionStorage.setItem('__calHand',JSON.stringify(window.__calStore.m))}catch(e){}location.reload();return}if(local>remote)await pushNow();else badge('Synced')}
  else{if(owner!==uid)Object.keys(db).forEach(k=>{if(Array.isArray(db[k]))db[k]=[]});localStorage.setItem(KEY,JSON.stringify(db));localStorage.setItem(SK,uid);await pushNow();showView('dashboard')}}
 async function onSession(s){if(!s||!s.user||uid===s.user.id)return;uid=s.user.id;uemail=s.user.email||'';gate(false);badge('Syncing…','busy');await syncDown()}
-async function signOutNow(){if(_pt)await pushNow();await sb.auth.signOut();[KEY,SK,ST].forEach(k=>localStorage.removeItem(k));location.reload()}
+async function signOutNow(){if(_pt)await pushNow();await sb.auth.signOut();[KEY,SK,ST,'calytron_remember'].forEach(k=>localStorage.removeItem(k));location.reload()}
 const _rs3=renderSettings;renderSettings=function(){_rs3();if(!sb)return;document.getElementById('settings').insertAdjacentHTML('afterbegin','<div class="card" style="margin-bottom:16px"><div class="sectionTitle">Account</div><p style="color:var(--muted)">Signed in as <b>'+esc(uemail)+'</b>. Your data syncs securely to your private cloud workspace.</p><div class="actions"><button class="btn" onclick="pushNow()">Sync now</button><button class="btn danger" onclick="signOutNow()">Sign out</button></div></div>')};
-(async()=>{const c=window.CALYTRON_CONFIG||{};if(!c.url||!c.anonKey||/YOUR-/.test(c.url+c.anonKey)||!window.supabase){badge('Local mode','off');return}
- sb=window.supabase.createClient(c.url,c.anonKey,{auth:{persistSession:true,autoRefreshToken:true}});gate(true);
- sb.auth.onAuthStateChange((ev,s)=>{if(ev==='SIGNED_OUT'){uid=null;gate(true)}else if(s)onSession(s)});
- const {data}=await sb.auth.getSession();if(data&&data.session)onSession(data.session)})();
+window.__calStore={m:{},getItem(k){return localStorage.getItem('calytron_remember')==='1'?localStorage.getItem(k):(k in this.m?this.m[k]:null)},setItem(k,v){if(localStorage.getItem('calytron_remember')==='1')localStorage.setItem(k,v);else this.m[k]=v},removeItem(k){localStorage.removeItem(k);sessionStorage.removeItem(k);delete this.m[k]}};
+try{const h=sessionStorage.getItem('__calHand');if(h){Object.assign(window.__calStore.m,JSON.parse(h));sessionStorage.removeItem('__calHand')}}catch(e){}
+if(localStorage.getItem('calytron_remember')!=='1')[localStorage,sessionStorage].forEach(st=>Object.keys(st).filter(k=>/^sb-.*-auth-token/.test(k)).forEach(k=>st.removeItem(k)));
+(async()=>{gate(true);const c=window.CALYTRON_CONFIG||{};if(!c.url||!c.anonKey||/YOUR-/.test(c.url+c.anonKey)||!window.supabase){const m=document.getElementById('authMsg');if(m)m.textContent='Secure sign-in could not initialize. Check the network and authentication configuration, then refresh. The workspace will not open without authentication.';const b=document.getElementById('authBtn');if(b)b.disabled=true;const f=document.getElementById('authForm');if(f)f.querySelectorAll('input,a').forEach(x=>x.style.pointerEvents='none');return}
+ try{sb=window.supabase.createClient(c.url,c.anonKey,{auth:{persistSession:true,autoRefreshToken:true,storage:window.__calStore}});sb.auth.onAuthStateChange((ev,s)=>{if(ev==='SIGNED_OUT'){uid=null;gate(true)}else if(s)onSession(s)});const {data,error}=await sb.auth.getSession();if(error)throw error;if(data&&data.session)await onSession(data.session);else gate(true)}catch(err){uid=null;gate(true);const m=document.getElementById('authMsg');if(m)m.textContent='Unable to verify your session. Check your connection and refresh. Access remains locked.';}})();
 </script>
 
 
 
 
 
+<script>
+/* CALYTRON purchase-to-inventory correction */
+(function(){
+  const originalSubmitForm = window.submitForm;
+  window.submitForm = function(e,type,id){
+    if(type !== 'purchase') return originalSubmitForm(e,type,id);
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const o = Object.fromEntries(f.entries());
+    o.qty = Number(o.qty)||0; o.unitCost = Number(o.unitCost)||0;
+    o.total = Number(o.total)||o.qty*o.unitCost;
+    o.item = String(o.item||'').trim();
+    o.unit = String(o.unit||'').trim();
+    if(!o.item || o.qty<=0){ alert('Enter an ingredient name and a quantity greater than zero.'); return; }
+    const inv0=db.inventory.find(x=>String(x.name||'').trim().toLowerCase()===o.item.toLowerCase());
+     if(inv0&&inv0.unit&&o.unit&&String(inv0.unit).trim().toLowerCase()!==o.unit.toLowerCase()){alert('"'+inv0.name+'" is stocked in '+inv0.unit+'. Enter this purchase in '+inv0.unit+' (or edit the inventory unit first) so stock is not mixed.');return;}
+     const existing = id ? db.purchases.find(x=>String(x.id)===String(id)) : null;
+    // Reverse previous purchase movement when editing, then apply the new quantity.
+    if(existing) applyStockMovement(existing.item, -Number(existing.qty||0), existing.unit, existing.unitCost, existing.supplier);
+    o.id = existing ? existing.id : Date.now();
+    if(existing){ const i=db.purchases.findIndex(x=>String(x.id)===String(id)); if(i>=0) db.purchases[i]={...existing,...o}; }
+    else db.purchases.push(o);
+    applyStockMovement(o.item, o.qty, o.unit, o.unitCost, o.supplier);
+    save(); closeModal(); render(document.querySelector('.view.active').id);
+  };
+  function applyStockMovement(name, delta, unit, cost, supplier){
+    const clean=String(name||'').trim().toLowerCase(); if(!clean || !delta) return;
+    let item=db.inventory.find(x=>String(x.name||'').trim().toLowerCase()===clean);
+    if(!item && delta>0){
+      item={id:Date.now()+Math.floor(Math.random()*1000),name:String(name).trim(),cat:'Purchased',unit:unit||'unit',qty:0,min:0,max:0,cost:Number(cost)||0,supplier:supplier||''};
+      db.inventory.push(item);
+    }
+    if(item){
+      // Do not silently combine incompatible units.
+      if(item.unit && unit && String(item.unit).trim().toLowerCase()!==String(unit).trim().toLowerCase()){
+        alert('This ingredient already uses unit "'+item.unit+'". Purchase unit "'+unit+'" was not added to avoid mixing units. Please correct the units and try again.');
+        return false;
+      }
+      item.qty=Math.max(0,(Number(item.qty)||0)+delta);
+      if(Number(cost)>0) item.cost=Number(cost);
+      if(supplier) item.supplier=supplier;
+    }
+    return true;
+  }
+  const originalDel=window.del;
+  window.del=function(key,id,label){
+    if(key!=='purchases') return originalDel(key,id,label);
+    const p=db.purchases.find(x=>String(x.id)===String(id));
+    if(!p || !confirm('Delete this purchase? Its quantity will be removed from inventory.')) return;
+    applyStockMovement(p.item,-Number(p.qty||0),p.unit,p.unitCost,p.supplier);
+    db.purchases=db.purchases.filter(x=>String(x.id)!==String(id));
+    save(); render(document.querySelector('.view.active').id);
+  };
+  // Add Edit action to each purchase row while preserving existing table layout.
+  const oldRenderPurchases=window.renderPurchases;
+  window.renderPurchases=function(){ oldRenderPurchases(); const root=document.getElementById('purchases'); if(!root)return; root.querySelectorAll('tbody tr').forEach((tr)=>{const delBtn=tr.querySelector('button[onclick*="del(\'purchases\'"]');if(!delBtn)return;const m=(delBtn.getAttribute('onclick')||'').match(/del\('purchases',([\d.]+)/);if(!m)return;const id=m[1];if(tr.querySelector('[data-purchase-edit]'))return;const b=document.createElement('button');b.className='btn sm';b.textContent='Edit';b.setAttribute('data-purchase-edit','1');b.onclick=()=>openForm('purchase',Number(id));delBtn.parentNode.insertBefore(b,delBtn);}); };
+})();
+</script>
 </body></html>
+<script>
+/* Calytron Menu Profit: premium dashboard */
+(function(){
+const st={q:'',cls:'ALL',sort:'contrib'};
+const CL={STAR:['Stars','Keep and promote','#1b7a58'],'PLOW HORSE':['Plow horses','Popular but thin margin: nudge price or trim cost','#a8741a'],PUZZLE:['Puzzles','Great margin, low sales: feature them','#116b8f'],DOG:['Dogs','Low sales and margin: rework or remove','#b4443a']};
+const css=document.createElement('style');css.textContent=`
+.mpKpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.mpKpi{padding:18px 20px;border-radius:14px;background:linear-gradient(180deg,#fff,#f8f9f4);box-shadow:var(--lift)}
+.mpKpi span{font-size:12px;color:var(--muted);display:block}.mpKpi b{display:block;font:400 34px/1.1 var(--serif);margin:6px 0 2px}.mpKpi small{font-size:11px;color:var(--muted)}
+.mpKpi.dark{background:linear-gradient(140deg,#06201a,#0f4a3b);color:#f4efe2}.mpKpi.dark span,.mpKpi.dark small{color:#b9cdc5}
+.mpMatrix{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.mpQ{border-radius:14px;padding:18px;background:#fff;border-top:4px solid var(--c);box-shadow:var(--lift)}
+.mpQ h4{margin:0;font:400 22px var(--serif);display:flex;justify-content:space-between;align-items:baseline}.mpQ h4 em{font:600 12px 'Hanken Grotesk';color:var(--c);font-style:normal}
+.mpQ p{margin:2px 0 12px;font-size:12px;color:var(--muted)}
+.mpChip{display:inline-block;margin:0 6px 6px 0;padding:5px 11px;border-radius:99px;font-size:12px;font-weight:600;background:color-mix(in srgb,var(--c) 12%,#fff);color:var(--c);border:1px solid color-mix(in srgb,var(--c) 30%,#fff)}
+.mpBar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}.mpBar input,.mpBar select{border:1px solid #cfd4cc;border-radius:8px;padding:9px 12px;background:#fff;min-width:0}.mpBar input{flex:1;min-width:180px}
+.mpF{border:1px solid #cfd4cc;background:#fff;border-radius:99px;padding:7px 14px;font-weight:600;font-size:12px}.mpF.on{background:var(--accent);color:#f6f2e6;border-color:var(--accent)}
+.mpM{display:flex;align-items:center;gap:8px;min-width:120px}.mpM i{flex:1;height:6px;border-radius:9px;background:#e3e6df;overflow:hidden}.mpM i u{display:block;height:100%;border-radius:9px}
+.mpTip{font-size:11px;color:var(--muted);display:block}
+@media(max-width:1100px){.mpKpis{grid-template-columns:repeat(3,1fr)}}@media(max-width:760px){.mpKpis{grid-template-columns:repeat(2,1fr)}.mpMatrix{grid-template-columns:1fr}.mpKpi b{font-size:28px}}`;
+document.head.appendChild(css);
+function rows(){return db.menu.map(m=>{const c=recipeCost(m),p=+m.price||0,pr=p-c,mg=p?pr/p*100:0,u=menuSales(m.name),t=+m.target||55;return{m,c,p,pr,mg,u,t,contrib:pr*u,cls:classify(m),sug:(p&&mg<t&&t<100)?Math.ceil(c/(1-t/100)):0}})}
+function drawList(){const el=document.getElementById('mpList');if(!el)return;const q=st.q.trim().toLowerCase();
+ let R=rows().filter(r=>(st.cls==='ALL'||r.cls===st.cls)&&(!q||(r.m.name+' '+(r.m.cat||'')).toLowerCase().includes(q)));
+ const S={contrib:(a,b)=>b.contrib-a.contrib,margin:(a,b)=>a.mg-b.mg,price:(a,b)=>b.p-a.p,name:(a,b)=>String(a.m.name).localeCompare(b.m.name)};R.sort(S[st.sort]||S.contrib);
+ if(!R.length){el.innerHTML='<div class="empty">'+(db.menu.length?'No dishes match your filter.':'No dishes yet. Use Menu Builder to create your menu.')+'</div>';return}
+ el.innerHTML='<div class="tableWrap"><table><thead><tr><th>Dish</th><th>Price</th><th>Recipe cost</th><th>Margin</th><th>Units sold</th><th>Profit earned</th><th>Class</th><th>Action</th></tr></thead><tbody>'+R.map(r=>{const col=r.mg>=r.t?'#1b7a58':'#b4443a',c=r.cls;
+  return '<tr><td><div style="display:flex;gap:10px;align-items:center">'+(r.m.photo?'<img src="'+r.m.photo+'" alt="" style="width:42px;height:42px;border-radius:9px;object-fit:cover">':'')+'<div><b>'+esc(r.m.name)+'</b><span class="mpTip">'+esc(r.m.cat||'')+'</span></div></div></td><td>'+money(r.p)+'</td><td>'+money(r.c)+'</td><td><div class="mpM"><i><u style="width:'+Math.max(0,Math.min(100,r.mg))+'%;background:'+col+'"></u></i><b style="color:'+col+'">'+r.mg.toFixed(1)+'%</b></div><span class="mpTip">target '+r.t+'%'+(r.sug?' · suggest '+money(r.sug):'')+'</span></td><td>'+r.u+'</td><td>'+money(r.contrib)+'</td><td><span class="pill '+(c==='DOG'?'red':c==='PLOW HORSE'?'amber':'')+'">'+c+'</span></td><td style="white-space:nowrap"><button class="btn sm" onclick="openForm(\'menu\','+r.m.id+')">Edit</button> <button class="btn sm danger" onclick="del(\'menu\','+r.m.id+',\'menu item\')">Delete</button></td></tr>'}).join('')+'</tbody></table></div>'}
+window.mpSet=function(k,v){st[k]=v;if(k==='cls')document.querySelectorAll('.mpF').forEach(b=>b.classList.toggle('on',b.dataset.c===v));drawList()};
+window.renderMenu=function(){const R=rows(),priced=R.filter(r=>r.p>0),avg=priced.length?priced.reduce((a,r)=>a+r.mg,0)/priced.length:0,tot=R.reduce((a,r)=>a+r.contrib,0),risk=R.filter(r=>r.p&&r.mg<r.t),gap=risk.reduce((a,r)=>a+Math.max(0,(r.t/100*r.p-r.pr)*Math.max(1,r.u)),0);
+ const k=(l,v,s,d)=>'<div class="mpKpi'+(d?' dark':'')+'"><span>'+l+'</span><b>'+v+'</b><small>'+s+'</small></div>';
+ const mx=Object.keys(CL).map(c=>{const x=R.filter(r=>r.cls===c);return '<div class="mpQ" style="--c:'+CL[c][2]+'"><h4>'+CL[c][0]+'<em>'+x.length+'</em></h4><p>'+CL[c][1]+'</p>'+(x.map(r=>'<span class="mpChip">'+esc(r.m.name)+'</span>').join('')||'<span class="mpTip">None yet</span>')+'</div>'}).join('');
+ document.getElementById('menu').innerHTML=shell('Menu Profit','Cost every dish, see what earns and what drains, and fix prices with confidence.','<button class="btn primary" onclick="openMenuBuilder()">＋ Menu Builder</button><button class="btn" onclick="openForm(\'menu\')">＋ Add Menu Item</button>')+
+ '<div class="mpKpis">'+k('Dishes on menu',R.length,priced.length+' priced',1)+k('Average margin',priced.length?avg.toFixed(1)+'%':'—','across priced dishes')+k('Profit earned',money(tot),'recorded sales × dish margin')+k('Below target',risk.length,'dishes under target margin')+k('Margin gap',money(gap),'to recover at target prices')+'</div>'+
+ '<div class="sectionTitle">Menu engineering</div><div class="mpMatrix">'+mx+'</div>'+
+ '<div class="sectionTitle">All dishes</div><div class="mpBar"><input type="search" aria-label="Search dishes" placeholder="Search dishes or categories…" value="'+esc(st.q)+'" oninput="mpSet(\'q\',this.value)"><span style="display:contents">'+['ALL','STAR','PLOW HORSE','PUZZLE','DOG'].map(c=>'<button class="mpF'+(st.cls===c?' on':'')+'" data-c="'+c+'" onclick="mpSet(\'cls\',\''+c+'\')">'+(c==='ALL'?'All':CL[c][0])+'</button>').join('')+'</span><select aria-label="Sort" onchange="mpSet(\'sort\',this.value)"><option value="contrib"'+(st.sort==='contrib'?' selected':'')+'>Most profit first</option><option value="margin"'+(st.sort==='margin'?' selected':'')+'>Lowest margin first</option><option value="price"'+(st.sort==='price'?' selected':'')+'>Highest price</option><option value="name"'+(st.sort==='name'?' selected':'')+'>Name A–Z</option></select></div><div id="mpList"></div>';
+ drawList()};
+})();
+</script>
+
+<script>
+/* Calytron Menu Studio: creative design layer */
+(function(){
+const BD={vegan:'VG',vegetarian:'V',spicy:'HOT','gluten free':'GF','gluten-free':'GF',gf:'GF',halal:'HALAL',new:'NEW',popular:'TOP'};
+const TH={classic:['Classic Gold','#fffdf6','#8f6c2e'],noir:['Midnight','#0e1512','#d6b36a'],garden:['Garden','#f4f8f1','#2f7a52'],sunset:['Sunset','#fff6ef','#c4552d']};
+const CSS=`.mf{padding:40px 36px;border-radius:6px;background:var(--bg);color:var(--fg);box-shadow:0 22px 44px -26px rgba(0,0,0,.55),0 0 0 1px var(--ln);transition:background .25s,color .25s}
+.mf.t-classic{--bg:#fffdf6;--fg:#1d2a24;--ac:#8f6c2e;--ln:#d8cdae;--pk:#f6efd9}.mf.t-noir{--bg:#0e1512;--fg:#efe6cf;--ac:#d6b36a;--ln:#3a3a30;--pk:#17211c}.mf.t-garden{--bg:#f4f8f1;--fg:#1c2e22;--ac:#2f7a52;--ln:#c9dccb;--pk:#e5f0e3}.mf.t-sunset{--bg:#fff6ef;--fg:#3a2218;--ac:#c4552d;--ln:#efd2c0;--pk:#fbe5d6}
+.mf h2{font:400 42px/1.05 'Instrument Serif',Georgia,serif;margin:0;text-align:center}.mf .tg{text-align:center;font:italic 400 19px 'Instrument Serif',Georgia,serif;margin-top:6px;color:var(--ac)}
+.mf .rl{text-align:center;font-size:11px;letter-spacing:2.6px;text-transform:uppercase;margin:12px 0 24px;opacity:.7}
+.mf .cols{column-count:var(--cc,1);column-gap:46px}.mf .sec{break-inside:avoid;margin-bottom:24px}
+.mf h4{font:italic 400 25px 'Instrument Serif',Georgia,serif!important;text-align:left!important;margin:0 0 8px!important;padding-bottom:6px;border-bottom:1px solid var(--ln);color:var(--ac)!important;text-transform:none!important;letter-spacing:0!important}
+.mf .it{display:flex;justify-content:space-between;gap:16px;padding:7px 0}.mf .it b{font-weight:600}.mf .it small{display:block;font-size:12.5px;opacity:.72;max-width:38ch;line-height:1.4;margin-top:2px}.mf .it strong{white-space:nowrap}
+.mf .lg{display:block;margin:0 auto 14px;max-height:72px;max-width:190px;object-fit:contain}.mf .ph{width:64px;height:64px;border-radius:10px;object-fit:cover;flex:none}.mf .it{align-items:flex-start}
+.mf .bd{font-size:9px;font-weight:700;letter-spacing:.8px;border:1px solid var(--ac);color:var(--ac);border-radius:4px;padding:1px 5px;margin-left:7px;vertical-align:2px}
+.mf .pick{background:var(--pk);padding:16px 18px 8px;border-radius:10px;margin-bottom:26px;border:1px solid var(--ln)}
+.mf .ft{margin-top:14px;padding-top:14px;border-top:1px solid var(--ln);text-align:center;font-size:12px;opacity:.75}
+.dzT{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:4px 0 14px}.dzT button{border:2px solid var(--line);background:#fff;border-radius:12px;padding:10px 6px;font-size:12px;font-weight:600}.dzT button.on{border-color:var(--accent);box-shadow:0 0 0 3px #0f5c4922}.dzT i{display:block;height:26px;border-radius:7px;margin-bottom:6px;border:1px solid rgba(0,0,0,.12)}
+.menuStudioPro>div:last-child .mf .cols{column-count:1}@media(max-width:700px){.mf{padding:26px 20px}.mf .cols{column-count:1}.dzT{grid-template-columns:repeat(2,1fr)}}`;
+const st=document.createElement('style');st.textContent=CSS;document.head.appendChild(st);
+function dz(){return menuBuilderState.design||(menuBuilderState.design={theme:'classic',cols:1,tagline:'Fresh. Local. Made with care.',footer:'Please tell your server about any allergies.'})}
+window.renderBuilderPreviewPro=function(){const d=dz(),S=menuBuilderState,named=S.items.filter(x=>x.name.trim()),pk=named.filter(x=>x.featured);
+ const pr=x=>+x.price?money(+x.price):'—',bd=x=>(x.tags||[]).slice(0,3).map(t=>'<span class="bd">'+esc(BD[String(t).toLowerCase()]||String(t).toUpperCase().slice(0,6))+'</span>').join('');
+ const it=x=>'<div class="it">'+(x.photo?'<img class="ph" src="'+x.photo+'" alt="">':'')+'<div style="flex:1"><b>'+esc(x.name)+'</b>'+bd(x)+(x.description?'<small>'+esc(x.description)+'</small>':'')+'</div><strong>'+pr(x)+'</strong></div>';
+ const secs=S.sections.map(s=>{const a=named.filter(x=>x.cat===s);return a.length?'<div class="sec"><h4>'+esc(s)+'</h4>'+a.map(it).join('')+'</div>':''}).join('');
+ return '<div class="mf t-'+d.theme+'" style="--cc:'+d.cols+'">'+(db.setup.logo?'<img class="lg" src="'+db.setup.logo+'" alt="">':'')+'<h2>'+esc(S.name||'Restaurant Menu')+'</h2>'+(d.tagline?'<div class="tg">'+esc(d.tagline)+'</div>':'')+'<div class="rl">'+esc(db.setup.restaurant||'')+' · '+esc(S.currency||'')+'</div>'+(pk.length?'<div class="pick"><h4>Chef’s selection</h4>'+pk.map(it).join('')+'</div>':'')+(secs?'<div class="cols">'+secs+'</div>':'<div class="empty">Add dishes to see your menu take shape.</div>')+(d.footer?'<div class="ft">'+esc(d.footer)+'</div>':'')+'</div>'};
+function panel(){const d=dz();return '<div class="studioPanel"><div class="sectionTitle">Design your menu</div><div class="dzT">'+Object.entries(TH).map(([k,v])=>'<button type="button" data-t="'+k+'" class="'+(d.theme===k?'on':'')+'" onclick="dzSet(\'theme\',\''+k+'\')"><i style="background:'+v[1]+';box-shadow:inset 0 -10px 0 '+v[2]+'"></i>'+v[0]+'</button>').join('')+'</div><div class="formGrid"><div class="field"><label>Tagline</label><input value="'+esc(d.tagline)+'" oninput="dzSet(\'tagline\',this.value,1)"></div><div class="field"><label>Footer note</label><input value="'+esc(d.footer)+'" oninput="dzSet(\'footer\',this.value,1)"></div></div><div class="builderTools"><button class="btn" onclick="dzSet(\'cols\',1)">One column</button><button class="btn" onclick="dzSet(\'cols\',2)">Two columns</button><button class="btn" onclick="dzAuto()">✦ Write missing descriptions</button><button class="btn" onclick="calLogo()">Upload logo</button><button class="btn primary" onclick="dzPrint()">Print / Save as PDF</button></div><div class="footerNote">Tip: click a dish\u2019s round icon in Build to add its photo. Tag dishes (vegan, spicy, gluten free) for badges, and use Feature on a dish to place it in Chef’s selection.</div></div>'}
+window.dzSet=function(k,v,quiet){dz()[k]=v;document.querySelectorAll('#modal .mf').forEach(el=>el.outerHTML=renderBuilderPreviewPro());if(k==='theme')document.querySelectorAll('.dzT button').forEach(b=>b.classList.toggle('on',b.dataset.t===v))};
+window.dzAuto=function(){let n=0;menuBuilderState.items.forEach(x=>{if(!x.name.trim()||(x.description||'').trim())return;const ing=String(x.raw||'').split(/\n/).map(l=>l.split('|')[0].trim()).filter(Boolean).slice(0,5);
+ x.description=ing.length?'Prepared with '+(ing.length>1?ing.slice(0,-1).join(', ').toLowerCase()+' and '+ing[ing.length-1].toLowerCase():ing[0].toLowerCase())+', made fresh to order.':'Our '+x.name.trim().toLowerCase()+', prepared fresh to order.';n++});renderMenuBuilder();toast(n?n+' descriptions written':'All dishes already have descriptions')};
+window.dzPrint=function(){const w=window.open('','_blank');if(!w){alert('Allow pop-ups to print your menu.');return}
+ w.document.write('<html><head><title>'+esc(menuBuilderState.name||'Menu')+'</title><style>'+CSS+'body{margin:0;padding:20px;background:#fff}@media print{body{padding:0}.mf{box-shadow:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body>'+renderBuilderPreviewPro()+'<script>setTimeout(function(){print()},500)<\/script></body></html>');w.document.close()};
+const prev=window.renderMenuBuilder;window.renderMenuBuilder=function(){prev();if(!menuBuilderState)return;const g=document.querySelector('#modal .menuStudioPro');if(!g)return;const host=menuBuilderState.step===5?g.children[0]:g.children[1];if(host)host.insertAdjacentHTML('afterbegin',panel())};
+})();
+</script>
+
+<script>
+/* Calytron: branding, dish photos, reporting period */
+(function(){
+function pickImg(max,mime,q,cb){const i=document.createElement('input');i.type='file';i.accept='image/*';i.onchange=()=>{const f=i.files[0];if(!f)return;if(!/^image\//.test(f.type)){alert('Choose an image file (JPG, PNG or WEBP).');return}const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.width*k));c.height=Math.max(1,Math.round(im.height*k));const g=c.getContext('2d');if(mime==='image/jpeg'){g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height)}g.drawImage(im,0,0,c.width,c.height);cb(c.toDataURL(mime,q))};im.onerror=()=>alert('That image could not be read.');im.src=r.result};r.readAsDataURL(f)};i.click()}
+function applyLogo(){let e=document.getElementById('logoCss');if(!e){e=document.createElement('style');e.id='logoCss';document.head.appendChild(e)}e.textContent=db.setup.logo?'.brand:before{content:""!important;background:url("'+db.setup.logo+'") center/contain no-repeat #fff!important;border-radius:12px!important}':''}
+window.setLogo=function(u){db.setup.logo=u;save();applyLogo();if(document.querySelector('.view.active').id==='settings')renderSettings();if(menuBuilderState&&document.getElementById('modal').classList.contains('open'))renderMenuBuilder();toast(u?'Logo saved':'Logo removed')};
+window.calLogo=function(){pickImg(320,'image/png',1,setLogo)};
+window.setDishPhoto=function(id,u){const x=menuBuilderState.items.find(i=>String(i.id)===String(id));if(!x)return;x.photo=u;renderMenuBuilder()};
+window.calPhoto=function(id){pickImg(640,'image/jpeg',.72,u=>setDishPhoto(id,u))};
+const _rm=window.renderMenuBuilder;window.renderMenuBuilder=function(){_rm();if(!menuBuilderState)return;document.querySelectorAll('#modal .proDish').forEach(el=>{const id=(el.innerHTML.match(/openBuilderDish\(&#39;([^&]+)&#39;|openBuilderDish\('([^']+)'/)||[])[1]||(el.innerHTML.match(/openBuilderDish\('([^']+)'/)||[])[1];const x=menuBuilderState.items.find(i=>String(i.id)===String(id)),t=el.querySelector('.dishThumb');if(!x||!t)return;t.style.cursor='pointer';t.title=x.photo?'Change photo':'Add photo';t.onclick=()=>calPhoto(x.id);if(x.photo)t.style.cssText+=';background:url("'+x.photo+'") center/cover;color:transparent'})};
+const _sbm=window.saveBuiltMenu;window.saveBuiltMenu=function(){const ph={};(menuBuilderState?menuBuilderState.items:[]).forEach(x=>{if(x.photo&&x.name.trim())ph[x.name.trim().toLowerCase()]=x.photo});const n=db.menu.length;_sbm();let c=0;db.menu.slice(n).forEach(m=>{const p=ph[String(m.name).toLowerCase()];if(p){m.photo=p;c++}});if(c){save();render('menu')}};
+const _rs=window.renderSettings;window.renderSettings=function(){_rs();document.getElementById('settings').insertAdjacentHTML('afterbegin','<div class="card" style="margin-bottom:16px"><div class="sectionTitle">Branding</div>'+(db.setup.logo?'<img src="'+db.setup.logo+'" alt="Logo" style="max-height:64px;max-width:200px;display:block;margin-bottom:12px">':'<p style="color:var(--muted)">Add your logo to show it in the sidebar and on printed menus.</p>')+'<div class="actions"><button class="btn primary" onclick="calLogo()">Upload logo</button>'+(db.setup.logo?'<button class="btn danger" onclick="setLogo(\'\')">Remove</button>':'')+'</div></div>')};
+applyLogo();
+/* reporting period */
+const KEY2='calytron_period',IDS=['dashboard','sales','menu','food','purchases','waste','expenses','labor','cash','profit','reports','alerts'];
+let P={k:'all',f:'',t:''};try{P=Object.assign(P,JSON.parse(localStorage.getItem(KEY2)||'{}'))}catch(e){}
+function range(){const d=today;if(P.k==='today')return[d(0),d(0)];if(P.k==='week')return[d(-6),d(0)];if(P.k==='month')return[d(0).slice(0,8)+'01',d(0)];if(P.k==='30')return[d(-29),d(0)];if(P.k==='custom'&&(P.f||P.t)){let a=P.f||'0000-01-01',b=P.t||'9999-12-31';if(a>b)[a,b]=[b,a];return[a,b]}return null}
+window._calRange=range;function withP(f){const r=range();if(!r)return f();const ks=['sales','purchases','waste','expenses','labor','cash'],bak={};ks.forEach(k=>{bak[k]=db[k];db[k]=db[k].filter(x=>x.date>=r[0]&&x.date<=r[1])});try{return f()}finally{ks.forEach(k=>db[k]=bak[k])}}
+['Dashboard','Sales','Menu','Food','Purchases','Waste','Expenses','Labor','Cash','Profit','Reports','Alerts'].forEach(n=>{const f=window['render'+n];window['render'+n]=function(){return withP(f)}});
+const _pr=window.printReport;window.printReport=function(){return withP(_pr)};
+function bar(){const r=range(),L=[['all','All time'],['today','Today'],['week','Last 7 days'],['month','This month'],['30','Last 30 days'],['custom','Custom']];
+ document.getElementById('periodBar').innerHTML='<b style="font-size:12px;color:var(--muted)">Period</b>'+L.map(x=>'<button class="mpF'+(P.k===x[0]?' on':'')+'" onclick="setPeriod(\''+x[0]+'\')">'+x[1]+'</button>').join('')+(P.k==='custom'?'<input type="date" aria-label="From" value="'+P.f+'" onchange="setPeriod(\'custom\',this.value,null)"> <span>to</span> <input type="date" aria-label="To" value="'+P.t+'" onchange="setPeriod(\'custom\',null,this.value)">':'')+'<span style="margin-left:auto;font-size:12px;color:var(--muted)">'+(r?'Showing '+(r[0]>'0001'?fmtDate(r[0]):'start')+' – '+(r[1]<'9999'?fmtDate(r[1]):'today'):'Showing every record')+'</span>'}
+window.setPeriod=function(k,f,t){P.k=k;if(f!=null)P.f=f;if(t!=null)P.t=t;try{localStorage.setItem(KEY2,JSON.stringify(P))}catch(e){}bar();render(document.querySelector('.view.active').id)};
+const css=document.createElement('style');css.textContent='#periodBar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:18px;padding:10px 14px;background:#fff;border-radius:12px;box-shadow:var(--lift)}#periodBar input{border:1px solid #cfd4cc;border-radius:8px;padding:7px 9px}';document.head.appendChild(css);
+document.querySelector('.content').insertAdjacentHTML('afterbegin','<div id="periodBar" role="group" aria-label="Reporting period"></div>');bar();
+const _sv=window.showView;window.showView=function(id){_sv(id);document.getElementById('periodBar').style.display=IDS.includes(id)?'flex':'none'};
+if(P.k!=='all')render(document.querySelector('.view.active').id);
+})();
+</script>
+
+<script>
+/* Calytron: stability and launch-readiness fixes */
+(function(){
+window.invAdj=function(name,d){const x=db.inventory.find(i=>i.name.toLowerCase()===String(name||'').trim().toLowerCase());if(x)x.qty=Math.max(0,+((+x.qty||0)+d).toFixed(4))};
+const ded=(type,r)=>{if(type==='sale'){const m=db.menu.find(x=>x.name.toLowerCase()===String(r.item).trim().toLowerCase());return(m?m.ings||[]:[]).filter(i=>i.name&&i.qty).map(i=>({n:i.name,q:i.qty*r.qty}))}return[{n:r.item,q:r.qty}]};
+const _sf=window.submitForm;window.submitForm=function(e,type,id){if(!id||(type!=='sale'&&type!=='waste'))return _sf(e,type,id);const arr=type==='sale'?db.sales:db.waste,old=arr.find(x=>x.id===id),oldD=old&&old._ded||[];_sf(e,type,id);
+ if(document.getElementById('modal').classList.contains('open'))return;const r=arr.find(x=>x.id===id);if(!r)return;const nd=ded(type,r);oldD.forEach(d=>invAdj(d.n,d.q));nd.forEach(d=>invAdj(d.n,-d.q));r._ded=nd;save()};
+window.classify=function(m){const tot=sum(db.menu,x=>menuSales(x.name)),th=db.menu.length?.7*tot/db.menu.length:0,u=menuSales(m.name),mg=m.price?menuProfit(m)/m.price*100:0,hi=u>0&&u>=th,hm=mg>=(m.target||55);return hi?(hm?'STAR':'PLOW HORSE'):(hm?'PUZZLE':'DOG')};
+const _sv=window.showView;window.showView=function(id){if(document.getElementById('modal').classList.contains('open'))closeModal();_sv(id)};
+const _rd=window.renderDashboard;window.renderDashboard=function(){_rd();const sec=document.getElementById('dashboard');sec.querySelectorAll('button[onclick*="loadDemo"]').forEach(b=>b.remove());
+ const h=sec.querySelector('.hero h2');if(h){const hr=new Date().getHours();h.textContent=h.textContent.replace('Good morning',hr<12?'Good morning':hr<17?'Good afternoon':'Good evening')}
+ if(db.setup.restaurant==='Urban Grill'||db.setup.owner==='Demo Owner')sec.insertAdjacentHTML('afterbegin','<div class="alert warn" style="margin-bottom:16px"><b>Set up your restaurant</b><small>Your restaurant name and owner are still the sample values. Add your own details so reports and menus carry your name.</small><div style="margin-top:9px"><button class="btn sm primary" onclick="openSetup()">Open setup</button></div></div>')};
+const _rw=window.renderWaste;window.renderWaste=function(){_rw();const r=window._calRange();const ds=[].concat(db.sales,db.waste,db.expenses,db.purchases,db.labor).map(x=>x.date).filter(Boolean).sort();let a=r?r[0]:(ds[0]||today()),b=r?r[1]:today();if(a<'1000')a=ds[0]||today();if(b>'9000')b=today();
+ const days=Math.max(1,Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/864e5)+1),w=sum(db.waste.filter(x=>!r||(x.date>=r[0]&&x.date<=r[1])),x=>+x.cost||0);
+ document.querySelectorAll('#waste .metric').forEach(c=>{const l=c.querySelector('.label');if(l&&l.textContent==='Annualized'){c.querySelector('.value').textContent=money(w/days*365);c.querySelector('.sub').textContent='Projected from '+days+' day'+(days>1?'s':'')+' of records'}})};
+const _rs=window.renderSettings;window.renderSettings=function(){_rs();document.querySelectorAll('#settings p').forEach(p=>{if(p.textContent.includes('stores data locally'))p.textContent='Your data is saved in this browser and, while you are signed in, synced to your private cloud workspace. Download a backup regularly.';if(p.textContent.includes('lives only in this browser'))p.textContent='A backup file is a copy you control. Download one regularly, or restore one here.'})};
+})();
+</script>
+
+<script>
+/* Calytron: purchase form shows and saves Minimum / Maximum stock */
+(function(){
+const _of=window.openForm;window.openForm=function(t,id){_of(t,id);if(t!=='purchase')return;const f=document.querySelector('#modalBody form');if(!f||!f.item)return;
+ const mk=(n,l)=>'<div class="field"><label>'+l+'</label><input name="'+n+'" type="number" min="0" step="any" placeholder="Optional"></div>';
+ f.lastElementChild.insertAdjacentHTML('beforebegin',mk('stkMin','Minimum stock (reorder level)')+mk('stkMax','Maximum stock'));
+ let dl=document.getElementById('invNames');if(!dl){dl=document.createElement('datalist');dl.id='invNames';document.body.appendChild(dl)}dl.innerHTML=db.inventory.map(i=>'<option value="'+esc(i.name)+'">').join('');f.item.setAttribute('list','invNames');
+ const fill=()=>{const n=f.item.value.trim().toLowerCase(),x=db.inventory.find(i=>String(i.name).trim().toLowerCase()===n);if(!x)return;if(!f.unit.value)f.unit.value=x.unit||'';if(!(+f.unitCost.value))f.unitCost.value=x.cost||'';if(!f.supplier.value)f.supplier.value=x.supplier||'';f.stkMin.value=x.min||'';f.stkMax.value=x.max||''};
+ f.item.addEventListener('input',fill);f.item.addEventListener('change',fill);if(f.item.value)fill()};
+const _sf=window.submitForm;window.submitForm=function(e,type,id){if(type!=='purchase')return _sf(e,type,id);const f=e.target;if(!f.stkMin)return _sf(e,type,id);
+ const mn=f.stkMin.value.trim(),mx=f.stkMax.value.trim(),item=f.item.value.trim();
+ if(mn!==''&&mx!==''&&+mx>0&&+mx<+mn){e.preventDefault();alert('Maximum stock must be at least the minimum stock.');return}
+ f.stkMin.disabled=true;f.stkMax.disabled=true;_sf(e,type,id);f.stkMin.disabled=false;f.stkMax.disabled=false;
+ if(document.getElementById('modal').classList.contains('open')||!item)return;
+ const x=db.inventory.find(i=>String(i.name).trim().toLowerCase()===item.toLowerCase());if(!x)return;if(mn!=='')x.min=+mn||0;if(mx!=='')x.max=+mx||0;save();const a=document.querySelector('.view.active');if(a)render(a.id)};
+})();
+</script>
+
+<script>
+/* Calytron: what-if pricing simulator (Menu Studio step 4) */
+(function(){
+const cur=()=>menuBuilderState.items.find(i=>String(i.id)===document.getElementById('simDish').value);
+window.dzNeed=function(){const x=cur();if(!x)return;const c=builderCost(x),t=+x.target||70,need=t<100&&c>0?Math.ceil(c/(1-t/100)):0;document.getElementById('simNeed').textContent=need?'Cost per plate '+money(c)+'. To reach your '+t+'% target margin the price should be at least '+money(need)+'.':'Add ingredients to this dish to see the price needed for your target margin.'};
+window.dzSim=function(){const x=cur();if(!x)return;document.getElementById('simPrice').value=x.price;document.getElementById('simUnits').value=+x.popular||50;builderSimulate();dzNeed()};
+const _rb=window.renderMenuBuilder;window.renderMenuBuilder=function(){_rb();if(!menuBuilderState||menuBuilderState.step!==4)return;const g=document.querySelector('#modal .menuStudioPro');if(!g)return;
+ const L=menuBuilderState.items.filter(x=>x.name.trim()&&+x.price>0);
+ const body=L.length?'<div class="formGrid"><div class="field"><label>Dish</label><select id="simDish" onchange="dzSim()">'+L.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name)+'</option>').join('')+'</select></div><div class="field"><label>Proposed price</label><input id="simPrice" type="number" min="0" step="any" oninput="builderSimulate();dzNeed()"></div><div class="field"><label>Units sold per month</label><input id="simUnits" type="number" min="0" step="any" oninput="builderSimulate()"></div></div><div id="simResult" class="simResult"></div><p class="footerNote" id="simNeed"></p>':'<div class="empty">Add selling prices to your dishes to test pricing.</div>';
+ g.children[0].insertAdjacentHTML('beforeend','<div class="studioPanel"><div class="sectionTitle">What-if pricing</div>'+body+'</div>');if(L.length)dzSim()};
+})();
+</script>
+
+<script>
+/* Calytron: purchase form shows exactly how inventory will be affected */
+(function(){
+const nm=v=>String(v||'').trim().toLowerCase();
+const find=n=>db.inventory.find(i=>nm(i.name)===nm(n));
+const _of=window.openForm;window.openForm=function(t,id){_of(t,id);if(t!=='purchase')return;const f=document.querySelector('#modalBody form');if(!f||!f.item)return;
+ f.lastElementChild.insertAdjacentHTML('beforebegin','<div id="stkNote" role="status" style="grid-column:1/-1;font-size:12.5px;margin:0 0 6px;min-height:18px"></div>');
+ const upd=()=>{const el=document.getElementById('stkNote');if(!el)return;const n=nm(f.item.value),u=nm(f.unit.value),q=+f.qty.value||0,x=find(f.item.value);if(!n){el.textContent='';return}
+  if(!x){const sim=db.inventory.filter(i=>n.length>2&&(nm(i.name).includes(n)||n.includes(nm(i.name)))).map(i=>i.name).slice(0,3);el.style.color='var(--muted)';el.textContent='New item: it will be created in Inventory.'+(sim.length?' Similar items already in stock: '+sim.join(', ')+'. Use the exact name to add to that stock instead.':'');return}
+  if(x.unit&&u&&nm(x.unit)!==u){el.style.color='#b4443a';el.textContent='Inventory counts '+x.name+' in '+x.unit+'. Change the unit to '+x.unit+' so the stock can be added.';return}
+  el.style.color='#1b7a58';el.textContent=id?'Linked to Inventory item: '+x.name+'. Stock is corrected automatically when you save.':'Will add to existing stock: '+x.name+' is '+x.qty+' '+x.unit+(q?', becomes '+(+(+x.qty+q).toFixed(4))+' '+x.unit:'')+'.'};
+ f._stkUpd=upd;['input','change'].forEach(evn=>['item','qty','unit'].forEach(k=>f[k].addEventListener(evn,upd)));upd()};
+const _sf=window.submitForm;window.submitForm=function(e,type,id){if(type!=='purchase'||!e||!e.target||!e.target.item)return _sf(e,type,id);const f=e.target,x=find(f.item.value);
+ if(x&&x.unit&&f.unit.value.trim()&&nm(x.unit)!==nm(f.unit.value)){e.preventDefault();f._stkUpd&&f._stkUpd();alert('Inventory counts "'+x.name+'" in '+x.unit+'. Change the unit to '+x.unit+' (or edit the inventory unit first).');return}
+ const item=f.item.value.trim(),before=x?+x.qty:null;_sf(e,type,id);
+ if(document.getElementById('modal').classList.contains('open')||!item)return;const y=find(item);if(y)toast(before===null?'Purchase saved · '+y.name+' added to Inventory ('+y.qty+' '+y.unit+')':'Purchase saved · '+y.name+' stock '+before+' → '+y.qty+' '+y.unit)};
+})();
+</script>
+
+<script>
+/* Calytron: sale form shows which ingredients will leave Inventory */
+(function(){
+const nm=v=>String(v||'').trim().toLowerCase();
+function plan(item,q){const m=db.menu.find(x=>nm(x.name)===nm(item));if(!m)return null;return(m.ings||[]).filter(i=>i.name&&+i.qty).map(i=>({n:i.name,need:+(i.qty*q).toFixed(4),inv:db.inventory.find(x=>nm(x.name)===nm(i.name))}))}
+const _of=window.openForm;window.openForm=function(t,id){_of(t,id);if(t!=='sale')return;const f=document.querySelector('#modalBody form');if(!f||!f.item||!f.qty)return;
+ if(f.item.tagName==='INPUT'){let dl=document.getElementById('menuNames');if(!dl){dl=document.createElement('datalist');dl.id='menuNames';document.body.appendChild(dl)}dl.innerHTML=db.menu.map(m=>'<option value="'+esc(m.name)+'">').join('');f.item.setAttribute('list','menuNames')}
+ f.lastElementChild.insertAdjacentHTML('beforebegin','<div id="saleNote" role="status" style="grid-column:1/-1;font-size:12.5px;margin:0 0 6px;min-height:18px"></div>');
+ const upd=()=>{const el=document.getElementById('saleNote');if(!el)return;const q=+f.qty.value||0;if(!f.item.value.trim()){el.textContent='';return}
+  const set=(c,t)=>{el.style.color=c;el.textContent=t};
+  if(id)return set('var(--muted)','Ingredients are recalculated for the new quantity when you save.');
+  const p=plan(f.item.value,q);
+  if(p===null)return set('var(--muted)','This dish is not on your Menu Profit list, so no ingredients are deducted from Inventory.');
+  if(!p.length)return set('var(--muted)','This dish has no recipe yet, so Inventory is not changed. Add its ingredients in Menu Profit.');
+  const low=p.some(x=>x.inv&&+x.inv.qty<x.need);
+  set(low?'#b4443a':'#1b7a58','Will use: '+p.map(x=>x.inv?x.inv.name+' −'+x.need+' '+x.inv.unit+(+x.inv.qty<x.need?' (low: only '+x.inv.qty+' left)':''):x.n+' (not in Inventory, not tracked)').join(', ')+'.')};
+ ['input','change'].forEach(e=>['item','qty'].forEach(k=>f[k].addEventListener(e,upd)));upd()};
+const _sf=window.submitForm;window.submitForm=function(e,type,id){if(type!=='sale'||id)return _sf(e,type,id);const n=db.sales.length;_sf(e,type,id);
+ if(db.sales.length<=n)return;const r=db.sales[db.sales.length-1],d=(r._ded||[]).filter(x=>x.q>0);
+ toast(d.length?'Sale saved · stock used: '+d.map(x=>x.n+' −'+(+(+x.q).toFixed(3))).join(', '):'Sale saved · no ingredients deducted (dish has no tracked recipe)')};
+})();
+</script>
+
+<script>
+/* Calytron: in-app User Guide */
+(function(){
+const G="<p>Know what every dish earns, what your stock is worth, and what is left after costs.</p><details class=\"hlp\"><summary>1. Signing in</summary><div><ul><li>Open the app and sign in with your email and password.</li><li>It asks you to sign in each time you open it. On your own device you can tick <b>Keep me signed in on this device</b>.</li><li>On a shared device, always leave it unticked and use <b>Settings, then Sign out</b> when you finish.</li><li>Forgot your password? Use the \"Forgot password?\" link on the sign-in screen.</li></ul></div></details><details class=\"hlp\"><summary>2. First-time setup (10 minutes)</summary><div><ol><li>Click <b>Open setup</b> on the Dashboard. Enter your restaurant name, owner, currency and your targets for food cost, labor and profit.</li><li>If you see sample records, go to <b>Settings, then Start fresh with empty data</b>.</li><li>Add your ingredients in <b>Inventory</b>: name, unit (kg, litre, pcs), quantity in stock, minimum, maximum and cost per unit.</li><li>Build your menu in <b>Menu Profit</b> (see section 4).</li></ol></div></details><details class=\"hlp\"><summary>3. Daily routine</summary><div><p>Record these every day. The numbers are only as good as what you enter.</p><ul><li><b>Sales:</b> type the dish name exactly as it is on your menu, with quantity and price.</li><li><b>Purchases:</b> type the ingredient name exactly as it is in Inventory, with quantity, unit and cost.</li><li><b>Waste:</b> record spoiled or dropped food with quantity and cost.</li><li><b>Labor:</b> record each shift with hourly rate, hours and overtime.</li><li><b>Expenses:</b> record rent, gas, electricity and other costs.</li><li><b>Cash Control:</b> at closing, enter opening cash, takings and the cash you counted.</li></ul><h4>How stock updates</h4><ul><li>A <b>purchase</b> adds to Inventory. Use the same name and the same unit as the Inventory item. The green line under the form shows what will happen.</li><li>A <b>sale</b> takes the dish's ingredients out of Inventory, using the recipe in Menu Profit. This only works if the dish is on your menu list, has ingredients, and the ingredient names match Inventory.</li><li><b>Waste</b> reduces stock. Editing or deleting a record corrects stock automatically.</li><li>Stock never goes below zero.</li></ul></div></details><details class=\"hlp\"><summary>4. Menu Profit and Menu Studio</summary><div><ul><li><b>Add Menu Item</b> is for one dish. Write ingredients one per line as <code>name | quantity | unit cost</code>.</li><li><b>Menu Builder</b> is for building a whole menu: pick a template, add dishes with prices and ingredients, test prices, and design the menu.</li><li>In the Studio you can add dish photos (click a dish's round icon), tag dishes (vegan, spicy), feature chef's picks, choose a theme, upload your logo in Settings, and <b>Print / Save as PDF</b>.</li><li><b>What-if pricing</b> (step 4) shows how a new price changes monthly profit.</li><li>Click <b>Save to Menu Engineering</b> so the dishes join your Menu Profit list.</li><li>Dishes are grouped: <b>Stars</b> (keep and promote), <b>Plow horses</b> (popular but low margin), <b>Puzzles</b> (high margin, low sales) and <b>Dogs</b> (rework or remove).</li></ul></div></details><details class=\"hlp\"><summary>5. Reading your numbers</summary><div><ul><li>The <b>Period bar</b> at the top (Today, Last 7 days, This month, Custom) filters every money screen.</li><li><b>Dashboard:</b> sales, gross profit, food cost %, and net profit after expenses, labor and waste.</li><li><b>Profit Center, Reports and Alerts:</b> deeper views, plus warnings such as low stock or margins below target.</li><li>Dishes with no recipe cost make profit look better than it really is. Complete your recipes.</li></ul></div></details><details class=\"hlp\"><summary>6. Invoice Center</summary><div><p>Upload a photo of a supplier invoice. The app reads it and shows a draft. Check every line, then post it. It is a helper, so always review before confirming.</p></div></details><details class=\"hlp\"><summary>7. Backup</summary><div><p><b>Settings, then Download backup</b> once a month, and before any big change. You can restore from the same screen. The app reminds you if it has been more than 30 days. To change your password, use <b>Change password</b> in Settings.</p></div></details><details class=\"hlp\"><summary>8. Common questions</summary><div><ul><li><b>My purchase did not add to stock.</b> The name or unit probably differs from Inventory, such as \"Chicken Breast\" versus \"Chicken\", or \"bag\" versus \"kg\". Use the exact name and unit.</li><li><b>My sale did not reduce stock.</b> Check the dish is on your Menu Profit list, has ingredients, and that those names match Inventory.</li><li><b>Figures look wrong.</b> Check the Period bar. It may be set to Today or a custom range.</li><li><b>I cannot sign in.</b> Check your email and password, use \"Forgot password?\", and make sure you are online.</li><li><b>Still stuck?</b> Email <a href=\"mailto:support@calytron.co\">support@calytron.co</a>.</li></ul></div></details>";
+const st=document.createElement('style');st.textContent=".hlp{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:#fff;overflow:hidden}.hlp summary{cursor:pointer;padding:13px 16px;font-weight:700;font-family:var(--serif);font-size:19px;font-weight:400}.hlp>div{padding:2px 18px 14px;font-size:14px;line-height:1.55}.hlp ul,.hlp ol{padding-left:20px;margin:6px 0}.hlp code{background:var(--soft);padding:1px 6px;border-radius:5px;font-size:12.5px}.hlp h4{margin:12px 0 4px}.hlpIntro{color:var(--muted);margin:0 0 12px}";document.head.appendChild(st);
+window.openHelp=function(){openModal('User Guide','<p class="hlpIntro">Tap a topic to open it.</p>'+G)};
+const a=document.querySelector('header.top .actions');if(a)a.insertAdjacentHTML('afterbegin','<button class="btn sm" onclick="openHelp()" aria-label="Open the user guide">? Help</button>');
+})();
+</script>
+
+<script>
+/* Calytron: contextual tips on every screen + first-run welcome */
+(function(){
+const H={dashboard:['Your business at a glance','These cards show sales, profit and costs for the period chosen above. Change the dates with the Period bar.',5],
+sales:['Recording sales','Type the dish name exactly as it is on your menu. Each sale takes that dish\u2019s ingredients out of Inventory.',3],
+menu:['Your menu and dish profit','Add ingredients to every dish so profit is real. Use Menu Builder to design a complete menu you can print.',4],
+food:['Food cost','This compares what your recipes cost with what you sold. Dishes with no recipe make it look better than it really is.',5],
+inventory:['Your stock','Set a minimum for each item to get low-stock warnings. Purchases add stock; sales and waste reduce it.',3],
+purchases:['Recording purchases','Use the exact ingredient name and unit from Inventory. The line under the form shows how your stock will change.',3],
+waste:['Recording waste','Record spoiled or dropped food so your profit stays honest. It also reduces your stock.',3],
+expenses:['Running costs','Record rent, gas, electricity and other costs here. They reduce your net profit.',3],
+labor:['Staff costs','Add each shift with the hourly rate, hours and overtime. Overtime is paid at 1.5 times.',3],
+cash:['Closing the till','At the end of the day enter opening cash, takings and the cash you counted to see any difference.',3],
+suppliers:['Your suppliers','Keep each supplier\u2019s contact and the items they supply in one place.',3],
+invoices:['Invoice Center','Upload a clear photo. Check every line before posting, because the reading is only a draft.',6],
+reports:['Reports','Choose a period above, then print a report for your records.',5],
+profit:['Profit Center','See where every K100 of sales goes and which dishes are losing money.',5],
+alerts:['Alerts','Warnings about low stock and margins below target appear here.',5],
+settings:['Settings and backup','Download a backup every month, add your logo, and sign out here on shared devices.',7]};
+const KEY='calytron_hints_off',off=()=>{try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}};
+const css=document.createElement('style');css.textContent='#hintBar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px;padding:12px 16px;background:#eef5ef;border:1px solid #cfe3d6;border-radius:12px;font-size:13px;line-height:1.45}#hintBar .hb{flex:1;min-width:220px}#hintBar b{display:block;font-size:14px}#hintBar .ac{display:flex;gap:8px}.welcomeSteps{padding-left:20px;line-height:1.7}';document.head.appendChild(css);
+document.getElementById('periodBar').insertAdjacentHTML('afterend','<div id="hintBar" role="note"></div>');
+function hint(id){const b=document.getElementById('hintBar'),h=H[id];if(!h||off().includes(id)){b.style.display='none';return}b.style.display='flex';b.innerHTML='<span aria-hidden="true" style="font-size:20px">💡</span><div class="hb"><b>'+h[0]+'</b>'+h[1]+'</div><div class="ac"><button class="btn sm" onclick="openHelp('+h[2]+')">Open guide</button><button class="btn sm" onclick="hintOff()">Got it</button></div>'}
+window.hintOff=function(){const id=document.querySelector('.view.active').id,l=off();if(!l.includes(id))l.push(id);try{localStorage.setItem(KEY,JSON.stringify(l))}catch(e){}hint(id)};
+window.hintsReset=function(){try{localStorage.removeItem(KEY)}catch(e){}closeModal();hint(document.querySelector('.view.active').id);toast('Tips will show on every screen')};
+const _oh=window.openHelp;window.openHelp=function(n){_oh();const b=document.getElementById('modalBody');b.insertAdjacentHTML('beforeend','<p style="margin-top:12px"><button class="btn sm" onclick="hintsReset()">Show screen tips again</button></p>');if(n){const d=b.querySelectorAll('details')[n-1];if(d){d.open=true;d.scrollIntoView({block:'nearest'})}}};
+window.openWelcome=function(){openModal('Welcome to Calytron','<p>Here is the quickest way to get started:</p><ol class="welcomeSteps"><li><b>Enter your restaurant details</b> and targets in Setup.</li><li><b>Add your ingredients</b> in Inventory, with unit, quantity and cost.</li><li><b>Add your dishes</b> in Menu Profit, with their ingredients and prices.</li><li><b>Record every day:</b> sales, purchases, waste, labor and expenses.</li></ol><p style="color:var(--muted);font-size:13px">A short tip appears at the top of every screen, and the ? Help button opens the full guide at any time.</p><div class="actions"><button class="btn primary" onclick="closeModal();openSetup()">Open setup</button><button class="btn" onclick="closeModal();openHelp()">Read the guide</button><button class="btn" onclick="closeModal()">Start now</button></div>')};
+const _sv=window.showView;window.showView=function(id){_sv(id);hint(id);const g=document.getElementById('authGate');if(!db.setup.welcomed&&!(g&&g.classList.contains('show'))&&!document.getElementById('modal').classList.contains('open')){db.setup.welcomed=true;save();openWelcome()}};
+hint(document.querySelector('.view.active').id);
+})();
+</script>
+
+<script>
+/* Calytron: contact support (pre-filled email) */
+(function(){
+const E='support@calytron.co';
+function href(){const v=(document.querySelector('.view.active')||{}).id||'',body='Hello Calytron support,\n\nMy question or problem:\n\n\n\n---\nPlease keep the details below so we can help faster.\nRestaurant: '+(db.setup.restaurant||'')+'\nScreen: '+v+'\nBuild: 2026.10.10-f\nBrowser: '+navigator.userAgent;return'mailto:'+E+'?subject='+encodeURIComponent('Calytron support request')+'&body='+encodeURIComponent(body)}
+const link=(c)=>'<a class="btn sm '+(c||'')+'" href="'+href().replace(/&/g,'&amp;')+'">✉ Contact support</a>';
+const _oh=window.openHelp;window.openHelp=function(n){_oh(n);document.getElementById('modalBody').insertAdjacentHTML('afterbegin','<p style="margin:0 0 12px">Stuck? '+link('primary')+' <span style="color:var(--muted);font-size:12.5px">'+E+'</span></p>')};
+const _rs=window.renderSettings;window.renderSettings=function(){_rs();document.getElementById('settings').insertAdjacentHTML('beforeend','<div class="card" style="margin-top:16px"><div class="sectionTitle">Support</div><p style="color:var(--muted)">Questions or something not working? Email us at <b>'+E+'</b> and describe what you were doing. The button adds your screen and app version automatically.</p><div class="actions">'+link('primary')+'<button class="btn" onclick="openHelp()">Open the user guide</button></div></div>')};
+})();
+</script>
+
+<script>
+/* Calytron: pre-sale essentials (legal, backup reminders, error handling, password, disclaimer) */
+(function(){
+const T={terms:['Terms of Use',`<p><i>Effective 10 October 2026</i></p><h4>1. The service</h4><p>Calytron Restaurant Profit helps you record sales, costs and stock, and estimate the profit of your restaurant.</p><h4>2. Your account</h4><p>You are responsible for keeping your login private and for the accuracy of the information you enter.</p><h4>3. Estimates only</h4><p>Figures shown are estimates calculated from the records you enter. They are not accounting, tax, legal or financial advice. Check important decisions with a qualified professional.</p><h4>4. Your data and backups</h4><p>Your records belong to you. Download a backup regularly from Settings. We work to keep the service available but cannot promise uninterrupted or error-free operation.</p><h4>5. Acceptable use</h4><p>Do not use the service unlawfully, try to disrupt it, or try to reach another customer's data.</p><h4>6. Fees</h4><p>Paid plans, if any, are agreed at sign-up or in writing before you are charged.</p><h4>7. Limit of liability</h4><p>To the extent the law allows, we are not liable for indirect losses or lost profit arising from use of the service or from decisions made using its estimates.</p><h4>8. Ending your use</h4><p>You may stop at any time and ask us to delete your account by email. We may suspend accounts that break these terms.</p><h4>9. Changes and contact</h4><p>We may update these terms and will show the new date here. Questions: support@calytron.co</p>`],
+privacy:['Privacy Policy',`<p><i>Effective 10 October 2026</i></p><h4>What we collect</h4><p>Your email address and the business records you enter: menu and recipes, stock, sales, costs, staff names and pay rates you choose to record, and any photos or logo you upload.</p><h4>How we use it</h4><p>Only to run the service: signing you in, saving and syncing your records, showing your reports and answering support requests.</p><h4>Where it is kept</h4><p>In your browser on the device you use, and in a secure cloud database so you can sign in from other devices. Each account can only reach its own records.</p><h4>Sharing</h4><p>We do not sell your data or use it for advertising. Providers that host the app and send emails process data for us. We may disclose information if the law requires it.</p><h4>Staff information</h4><p>If you record employee details, you are responsible for having the right to do so.</p><h4>Your choices</h4><p>Download a backup at any time. Email us to correct or delete your account and data. Signing out removes the copy kept on that device.</p><h4>Security</h4><p>We use encrypted connections and access controls. No system is perfectly secure, so please keep your password private.</p><h4>Contact</h4><p>support@calytron.co</p>`]};
+const css=document.createElement('style');css.textContent='#legalView{position:fixed;inset:0;z-index:20000;background:rgba(6,20,16,.62);display:none;align-items:center;justify-content:center;padding:16px}.lgCard{background:#fff;border-radius:16px;max-width:680px;width:100%;max-height:88vh;display:flex;flex-direction:column}.lgHead{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #e3e6df}.lgHead h2{margin:0;font:400 26px var(--serif)}.lgBody{padding:6px 22px 20px;overflow:auto;font-size:14px;line-height:1.6}.lgBody h4{margin:14px 0 4px}.lgA{cursor:pointer;text-decoration:underline}.disc{margin:18px 0 0;font-size:12px;color:var(--muted)}';document.head.appendChild(css);
+window.openLegal=function(k){let o=document.getElementById('legalView');if(!o){o=document.createElement('div');o.id='legalView';o.setAttribute('role','dialog');document.body.appendChild(o)}o.innerHTML='<div class="lgCard"><div class="lgHead"><h2>'+T[k][0]+'</h2><button class="btn sm" onclick="closeLegal()" aria-label="Close">✕</button></div><div class="lgBody">'+T[k][1]+'</div></div>';o.style.display='flex'};
+window.closeLegal=function(){const o=document.getElementById('legalView');if(o)o.style.display='none'};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLegal()});
+/* sign-up consent */
+const f=document.getElementById('authForm');
+if(f){f.querySelector('#authRemember').parentElement.insertAdjacentHTML('afterend','<label id="termsRow" style="display:none;gap:8px;align-items:flex-start;font-size:12.5px;margin:0 0 12px;color:var(--muted)"><input type="checkbox" id="authTerms" style="margin-top:2px"><span>I agree to the <a class="lgA" onclick="openLegal(\'terms\')">Terms of Use</a> and <a class="lgA" onclick="openLegal(\'privacy\')">Privacy Policy</a>.</span></label>');
+ const bt=document.getElementById('authBtn'),tr=document.getElementById('termsRow');new MutationObserver(()=>{tr.style.display=bt.textContent==='Create account'?'flex':'none'}).observe(bt,{childList:true,characterData:true,subtree:true});
+ const bd=[...f.children].reverse().find(x=>x.textContent.includes('build'));if(bd)bd.insertAdjacentHTML('beforeend','<br><a class="lgA" onclick="openLegal(\'terms\')">Terms</a> · <a class="lgA" onclick="openLegal(\'privacy\')">Privacy</a>');
+ document.addEventListener('submit',e=>{if(e.target.id==='authForm'&&bt.textContent==='Create account'&&!document.getElementById('authTerms').checked){e.preventDefault();e.stopImmediatePropagation();const m=document.getElementById('authMsg');m.textContent='Please tick the box to accept the Terms of Use and Privacy Policy.';m.style.color='#b4443a'}},true)}
+/* backup reminder */
+const _ex=window.exportData;window.exportData=function(){const r=_ex.apply(this,arguments);db.setup.lastBackup=new Date().toISOString();save();return r};
+const _rd=window.renderDashboard;window.renderDashboard=function(){_rd();if(!db.setup.firstSeen){db.setup.firstSeen=new Date().toISOString();save()}
+ const ref=new Date(db.setup.lastBackup||db.setup.firstSeen),old=(Date.now()-ref)/864e5>30,n=db.sales.length+db.purchases.length+db.expenses.length;
+ if(old&&n>=5)document.getElementById('dashboard').insertAdjacentHTML('afterbegin','<div class="alert warn" style="margin-bottom:16px"><b>Back up your data</b><small>'+(db.setup.lastBackup?'Your last backup was more than 30 days ago.':'You have not downloaded a backup yet.')+' A backup keeps your records safe if something goes wrong.</small><div style="margin-top:9px"><button class="btn sm primary" onclick="exportData()">Download backup</button></div></div>')};
+/* friendly errors */
+let last=0;const oops=()=>{const n=Date.now();if(n-last<60000)return;last=n;toast('Something went wrong. Your data is safe. If it keeps happening, open ? Help and use Contact support.')};
+window.addEventListener('error',e=>{if(!/ResizeObserver/.test(e.message||''))oops()});window.addEventListener('unhandledrejection',oops);
+/* disclaimer on profit screens */
+['Reports','Profit'].forEach(n=>{const g=window['render'+n];window['render'+n]=function(){g();document.getElementById(n.toLowerCase()).insertAdjacentHTML('beforeend','<p class="disc">Figures are estimates based on the records you enter. They are not accounting or tax advice.</p>')}});
+/* settings: about, password, legal */
+window.openPassword=function(){openModal('Change password','<form onsubmit="doPassword(event)" novalidate><div class="field"><label>New password</label><input name="p1" type="password" autocomplete="new-password"></div><div class="field"><label>Repeat new password</label><input name="p2" type="password" autocomplete="new-password"></div><p id="pwMsg" style="min-height:18px;font-size:13px"></p><div class="actions"><button class="btn primary" type="submit">Save password</button></div></form>')};
+window.doPassword=async function(e){e.preventDefault();const f=e.target,m=document.getElementById('pwMsg'),set=(t,ok)=>{m.textContent=t;m.style.color=ok?'#1b7a58':'#b4443a'};
+ if(f.p1.value.length<6)return set('Use at least 6 characters.');if(f.p1.value!==f.p2.value)return set('The two passwords do not match.');
+ try{const {error}=await sb.auth.updateUser({password:f.p1.value});if(error)return set(error.message);set('Password changed.',true);setTimeout(closeModal,1200)}catch(x){set('Could not change the password. Check your connection and try again.')}};
+const _rs=window.renderSettings;window.renderSettings=function(){_rs();const lb=db.setup.lastBackup?new Date(db.setup.lastBackup).toLocaleDateString():'never';
+ document.getElementById('settings').insertAdjacentHTML('beforeend','<div class="card" style="margin-top:16px"><div class="sectionTitle">About</div><p style="color:var(--muted)">Calytron Restaurant Profit · version 2026.10.10-f<br>Last backup: <b>'+lb+'</b></p><div class="actions">'+(uid?'<button class="btn" onclick="openPassword()">Change password</button>':'')+'<button class="btn" onclick="openLegal(\'terms\')">Terms of Use</button><button class="btn" onclick="openLegal(\'privacy\')">Privacy Policy</button></div></div>')};
+})();
+</script>
+
+<script>
+/* Calytron: controlled demo access. Keys and permissions are checked on the server (Supabase functions + row rules). */
+(function(){
+const SITE='https://profit.calytron.co',MAIL='support@calytron.co';
+let ACC=null,SESS=null,_t=null,KEYBOX='',ROWS=[];
+const missing=e=>e&&(e.code==='PGRST202'||e.code==='42883'||/could not find the function|does not exist/i.test(e.message||''));
+async function access(){if(!sb||typeof sb.rpc!=='function')return{state:'full',legacy:true};
+ try{const r=await sb.rpc('my_access');if(r.error)return missing(r.error)?{state:'full',legacy:true}:{state:'error',message:r.error.message};return r.data||{state:'none'}}catch(e){return{state:'error',message:'Network problem. Please check your connection.'}}}
+const css=document.createElement('style');css.textContent='#accessGate{position:fixed;inset:0;z-index:10001;display:none;align-items:center;justify-content:center;padding:18px;background:linear-gradient(135deg,#06201a,#0f4a3b);overflow:auto}#accessGate .acCard{background:#fff;border-radius:18px;max-width:460px;width:100%;padding:28px;box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}#accessGate h2{margin:0 0 6px;font:400 28px var(--serif)}#accessGate p{color:var(--muted);line-height:1.5}#accessGate label{font-size:13px;font-weight:600}#accessGate input[type=text],#accessGate textarea,#accessGate select{width:100%;border:1px solid #cfd4cc;border-radius:10px;padding:11px 12px;font:inherit;margin:4px 0 10px;box-sizing:border-box}#accessGate .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}#demoBar{display:none;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px;padding:11px 16px;background:#fff6e2;border:1px solid #ecd9a6;border-radius:12px;font-size:13px}.admTbl{overflow-x:auto;margin-bottom:12px}.admTbl table{min-width:680px}.keyBox{background:#f4f1e6;border:1px dashed #b08a3e;border-radius:12px;padding:14px;margin:12px 0}.keyBox code{font-size:20px;letter-spacing:1px;display:block;margin-bottom:8px;word-break:break-all}.keyBox textarea{width:100%;min-height:150px;box-sizing:border-box;font:12.5px/1.45 inherit;border:1px solid #d8cdae;border-radius:8px;padding:8px}';document.head.appendChild(css);
+document.body.insertAdjacentHTML('beforeend','<div id="accessGate" role="dialog" aria-modal="true" aria-label="Demo access"></div>');
+document.getElementById('periodBar').insertAdjacentHTML('beforebegin','<div id="demoBar" role="note"></div>');
+const show=h=>{const o=document.getElementById('accessGate');o.innerHTML='<div class="acCard">'+h+'</div>';o.style.display='flex'},hide=()=>{document.getElementById('accessGate').style.display='none'};
+const out='<div class="actions"><button class="btn" onclick="signOutNow()">Sign out</button></div>';
+function screen(a){const em=esc(SESS&&SESS.user.email||''),mail='mailto:'+MAIL+'?subject='+encodeURIComponent('Calytron demo');
+ if(a.state==='none')return'<h2>Enter your demo access key</h2><p>You are signed in as <b>'+em+'</b>. This workspace is available by invitation. Enter the access key from your invitation email.</p><form onsubmit="acRedeem(event)" novalidate><label>Access key</label><input type="text" name="key" placeholder="CALY-XXXX-XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters"><p id="acMsg" role="alert" style="min-height:18px;margin:0 0 8px;font-size:13px"></p><button class="btn primary" type="submit" style="width:100%">Start demo</button></form><p style="font-size:13px">No key yet? <a href="'+mail+'">Request an invitation</a>.</p>'+out;
+ if(a.state==='expired')return'<h2>Your demo has ended</h2><p>Thank you for testing Calytron'+(a.restaurant?' with '+esc(a.restaurant):'')+'. We would love to hear what you thought, and we can extend your access if you need more time.</p><div class="actions"><button class="btn primary" onclick="acFeedback()">Share feedback</button><a class="btn" href="'+mail+'">Ask for more time</a></div>'+out;
+ if(a.state==='revoked')return'<h2>Access withdrawn</h2><p>Your demo access is no longer active. If you think this is a mistake, contact <a href="mailto:'+MAIL+'">'+MAIL+'</a>.</p>'+out;
+ return'<h2>We could not check your access</h2><p>'+esc(a.message||'Please check your connection and try again.')+'</p><div class="actions"><button class="btn primary" onclick="acRetry()">Try again</button></div>'+out}
+function bar(){const b=document.getElementById('demoBar');if(!ACC||ACC.state!=='demo'){b.style.display='none';return}const d=ACC.days_left,end=ACC.expires_at?new Date(ACC.expires_at).toLocaleDateString():'';b.style.display='flex';b.innerHTML='<span aria-hidden="true">🧪</span><div style="flex:1;min-width:200px"><b>Demo access</b> · '+d+' day'+(d===1?'':'s')+' left'+(end?' (ends '+end+')':'')+'. You are exploring sample data.</div><div style="display:flex;gap:8px"><button class="btn sm primary" onclick="openFeedback()">Give feedback</button><a class="btn sm" href="mailto:'+MAIL+'?subject='+encodeURIComponent('Calytron full access')+'">Request full access</a></div>'}
+function after(){bar();if(ACC&&ACC.state==='demo'&&!db.setup.demoSeeded&&(db.sales.length+db.menu.length+db.inventory.length)===0){Object.keys(db).forEach(k=>delete db[k]);Object.assign(db,JSON.parse(JSON.stringify(seed)));db.setup.restaurant=(ACC.restaurant||'Demo')+' (Demo)';db.setup.owner=String((SESS.user.email||'').split('@')[0]);db.setup.demoSeeded=true;db.setup.welcomed=false;save();document.getElementById('restaurantTop').textContent=db.setup.restaurant+' • '+db.setup.currency;renderNav();showView('dashboard')}clearInterval(_t);_t=setInterval(recheck,300000)}
+const _os=window.onSession;
+window.onSession=async function(s){if(!s||!s.user||uid===s.user.id)return;SESS=s;const a=await access();ACC=a;if(a.state==='full'||a.state==='demo'){hide();await _os(s);after();return}show(screen(a))};
+async function recheck(){if(!SESS)return;const a=await access();if(a.state==='error')return;if(a.state==='demo'||a.state==='full'){ACC=Object.assign({},ACC,a);bar();hide();return}ACC=a;bar();show(screen(a))}
+window.calRecheck=recheck;
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)recheck()});
+window.acRetry=async function(){const a=await access();ACC=a;if(a.state==='full'||a.state==='demo'){hide();await _os(SESS);after()}else show(screen(a))};
+window.acRedeem=async function(e){e.preventDefault();const f=e.target,m=document.getElementById('acMsg'),set=(t,ok)=>{m.textContent=t;m.style.color=ok?'#1b7a58':'#b4443a'},k=f.key.value.trim();if(k.length<8)return set('Enter the access key from your invitation.');set('Checking…',true);
+ try{const r=await sb.rpc('redeem_demo_key',{p_key:k});if(r.error)return set(r.error.message||'Could not check the key.');if(!r.data||!r.data.ok)return set((r.data&&r.data.error)||'That key could not be used.');ACC=r.data;if(ACC.state==='demo'){hide();await _os(SESS);after()}else show(screen(ACC))}catch(x){set('Network problem. Please try again.')}};
+/* feedback */
+function fbForm(g){return'<h2>Share your feedback</h2><p>It takes one minute and helps us build what restaurants need.</p><form onsubmit="submitFeedback(event)" novalidate><label>How would you rate Calytron?</label><div class="stars" style="display:flex;gap:6px;margin:6px 0 12px">'+[1,2,3,4,5].map(n=>'<label style="flex:1;text-align:center;border:1px solid #cfd4cc;border-radius:10px;padding:10px 0;cursor:pointer"><input type="radio" name="rating" value="'+n+'" style="display:none" onchange="this.closest(\'.stars\').querySelectorAll(\'label\').forEach(l=>l.style.background=\'\');this.parentElement.style.background=\'#e8f3ec\'">'+n+'</label>').join('')+'</div><label>What did you like most?</label><textarea name="liked" rows="2" maxlength="1000" style="width:100%;box-sizing:border-box"></textarea><label>What should we improve or add?</label><textarea name="improve" rows="2" maxlength="1000" style="width:100%;box-sizing:border-box"></textarea><label>Would you pay for this?</label><select name="pay" style="width:100%"><option value="">Choose</option><option value="yes">Yes</option><option value="maybe">Maybe</option><option value="no">No</option></select><label style="display:flex;gap:8px;align-items:center;margin-top:10px"><input type="checkbox" name="contact"> You may contact me about my feedback</label><p id="fbMsg" role="alert" style="min-height:18px;font-size:13px"></p><div class="actions"><button class="btn primary" type="submit">Send feedback</button>'+(g?'<button class="btn" type="button" onclick="acBack()">Back</button>':'')+'</div></form>'}
+window.openFeedback=()=>openModal('Feedback',fbForm(0));window.acFeedback=()=>show(fbForm(1));window.acBack=()=>show(screen(ACC));
+window.submitFeedback=async function(e){e.preventDefault();const f=e.target,m=document.getElementById('fbMsg'),set=(t,ok)=>{m.textContent=t;m.style.color=ok?'#1b7a58':'#b4443a'},r=f.querySelector('input[name=rating]:checked');if(!r)return set('Please choose a rating from 1 to 5.');
+ try{const x=await sb.rpc('submit_demo_feedback',{p_rating:+r.value,p_liked:f.liked.value,p_improve:f.improve.value,p_would_pay:f.pay.value||null,p_contact_ok:f.contact.checked});if(x.error)return set(x.error.message);if(!x.data.ok)return set(x.data.error);set('Thank you. Your feedback was sent.',true);f.querySelector('button[type=submit]').disabled=true}catch(z){set('Could not send. Check your connection and try again.')}};
+/* administrator panel (the server rejects everyone who is not an administrator) */
+const when=d=>d?new Date(d).toLocaleDateString():'';
+function msgText(em,key,days){return'Hello,\n\nYou are invited to try Calytron Restaurant Profit for '+days+' days.\n\n1. Open: '+SITE+'\n2. Create an account (or sign in) with this email: '+em+'\n3. Enter your demo access key: '+key+'\n\nThe demo uses sample data, so you can explore safely. Your '+days+' days start when you enter the key. Please use the Give feedback button inside the app to tell us what you think.\n\nQuestions: '+MAIL}
+function keyBox(em,key,days){const t=msgText(em,key,days);return'<div class="keyBox"><b>Access key (shown once, copy it now)</b><code>'+esc(key)+'</code><textarea id="admMsgText" readonly>'+esc(t)+'</textarea><div class="actions" style="display:flex;gap:8px;margin-top:8px"><button class="btn sm primary" onclick="admCopy()">Copy invitation message</button><a class="btn sm" href="mailto:'+esc(em)+'?subject='+encodeURIComponent('Your Calytron demo invitation')+'&amp;body='+encodeURIComponent(t).replace(/&/g,'&amp;')+'">Open in email</a></div></div>'}
+window.admCopy=function(){const t=document.getElementById('admMsgText');t.select();try{navigator.clipboard&&navigator.clipboard.writeText(t.value)}catch(e){}try{document.execCommand('copy')}catch(e){}toast('Invitation message copied')};
+window.openAdmin=function(){openModal('Demo invitations','<div id="admBody">Loading…</div>');admLoad()};
+async function admLoad(){const b=document.getElementById('admBody');if(!b)return;let a,f;try{[a,f]=await Promise.all([sb.rpc('admin_list_invitations'),sb.rpc('admin_list_feedback')])}catch(e){b.textContent='Network problem.';return}
+ if(a.error||f.error){b.innerHTML='<p style="color:#b4443a">'+esc((a.error||f.error).message)+'</p>';return}ROWS=a.data||[];const fb=f.data||[];
+ const pill=s=>'<span class="pill '+(s==='active'?'':s==='pending'?'amber':'red')+'">'+esc(s)+'</span>';
+ const tm=r=>r.state==='active'?'Ends '+when(r.expires_at):r.state==='expired'?'Ended '+when(r.expires_at):r.state==='pending'?r.days+' days from first use · key valid until '+when(r.redeem_by):r.state==='key expired'?'Key expired '+when(r.redeem_by):'';
+ b.innerHTML='<form onsubmit="admCreate(event)" novalidate><div class="formGrid"><div class="field"><label>Owner email</label><input name="email" type="email" autocomplete="off"></div><div class="field"><label>Restaurant name</label><input name="rest" autocomplete="off"></div><div class="field"><label>Demo days</label><input name="days" type="number" min="1" max="90" value="7"></div></div><p id="admMsg" role="alert" style="min-height:18px;font-size:13px"></p><button class="btn primary" type="submit">Approve and create key</button></form><div id="admKey">'+KEYBOX+'</div><h4>Invitations ('+ROWS.length+')</h4>'+(ROWS.length?'<div class="admTbl"><table><thead><tr><th>Restaurant</th><th>Email</th><th>Status</th><th>Time</th><th>Actions</th></tr></thead><tbody>'+ROWS.map(r=>'<tr><td><b>'+esc(r.restaurant)+'</b></td><td>'+esc(r.email)+'</td><td>'+pill(r.state)+'</td><td>'+esc(tm(r))+'</td><td style="white-space:nowrap">'+(r.state==='revoked'?'':'<button class="btn sm" onclick="admExtend(\''+esc(r.id)+'\')">Extend</button> ')+(r.state==='pending'||r.state==='key expired'?'<button class="btn sm" onclick="admReissue(\''+esc(r.id)+'\')">New key</button> ':'')+(r.state==='revoked'?'':'<button class="btn sm danger" onclick="admRevoke(\''+esc(r.id)+'\')">Revoke</button>')+'</td></tr>').join('')+'</tbody></table></div>':'<p>No invitations yet.</p>')+'<h4>Feedback ('+fb.length+')</h4>'+(fb.length?'<div class="admTbl"><table><thead><tr><th>Date</th><th>Restaurant</th><th>Rating</th><th>Liked</th><th>Improve</th><th>Would pay</th><th>Contact</th></tr></thead><tbody>'+fb.map(x=>'<tr><td>'+when(x.created_at)+'</td><td>'+esc(x.restaurant)+'</td><td>'+x.rating+'/5</td><td>'+esc(x.liked||'')+'</td><td>'+esc(x.improve||'')+'</td><td>'+esc(x.would_pay||'')+'</td><td>'+(x.contact_ok?'<a href="mailto:'+esc(x.email)+'">'+esc(x.email)+'</a>':'no')+'</td></tr>').join('')+'</tbody></table></div>':'<p>No feedback yet.</p>')}
+window.admCreate=async function(e){e.preventDefault();const f=e.target,m=document.getElementById('admMsg'),set=(t,ok)=>{m.textContent=t;m.style.color=ok?'#1b7a58':'#b4443a'},days=parseInt(f.days.value,10);
+ try{const r=await sb.rpc('admin_create_invitation',{p_email:f.email.value,p_restaurant:f.rest.value,p_days:days});if(r.error)return set(r.error.message);if(!r.data.ok)return set(r.data.error);KEYBOX=keyBox(f.email.value.trim().toLowerCase(),r.data.key,days);await admLoad()}catch(x){set('Network problem. Nothing was created.')}};
+async function act(name,args,done){try{const r=await sb.rpc(name,args);if(r.error)return toast(r.error.message);if(!r.data.ok)return toast(r.data.error);if(done)done(r.data);await admLoad()}catch(e){toast('Network problem.')}}
+window.admExtend=function(id){const n=parseInt(prompt('Extend by how many days?','7'),10);if(!n)return;act('admin_extend_invitation',{p_id:id,p_days:n},()=>toast('Access extended'))};
+window.admRevoke=function(id){if(!confirm('Withdraw this access now? The owner will be locked out at once.'))return;act('admin_revoke_invitation',{p_id:id},()=>{KEYBOX='';toast('Access withdrawn')})};
+window.admReissue=function(id){const r=ROWS.find(x=>x.id===id);act('admin_reissue_key',{p_id:id},d=>{KEYBOX=keyBox(r.email,d.key,r.days)})};
+const _rs=window.renderSettings;window.renderSettings=function(){_rs();const s=document.getElementById('settings');if(ACC&&ACC.is_admin)s.insertAdjacentHTML('afterbegin','<div class="card" style="margin-bottom:16px"><div class="sectionTitle">Administrator</div><p style="color:var(--muted)">Approve restaurant owners for a demo, extend or withdraw access, and read their feedback.</p><div class="actions"><button class="btn primary" onclick="openAdmin()">Demo invitations</button></div></div>');if(ACC&&ACC.state==='demo')[...s.querySelectorAll('.card')].filter(c=>c.textContent.includes('Go live')).forEach(c=>c.remove())};
+})();
+</script>
+
+<script>
+/* Calytron: notice when the browser blocks saved data */
+(function(){if(!window.__storageBlocked)return;const c=document.querySelector('.content');if(!c)return;c.insertAdjacentHTML('afterbegin','<div id="storageBar" role="alert" style="margin-bottom:16px;padding:12px 16px;background:#fdecea;border:1px solid #f1b8b2;border-radius:12px;font-size:13px;line-height:1.5"><b>Your browser is blocking saved data.</b> This can happen in private windows or restricted viewers. You can still sign in and your work is saved to your account, but nothing is kept on this device. For the best experience, open the app in a normal browser window.</div>')})();
+</script>
