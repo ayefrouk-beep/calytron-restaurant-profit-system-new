@@ -2876,14 +2876,52 @@ let sb=null,uid=null,uemail='',_pt=null;
 const SK='calytron_owner',ST='calytron_stamp';
 function badge(txt,cls){let b=document.getElementById('syncBadge');if(!b){const t=document.querySelector('.top');if(!t)return;b=document.createElement('span');b.id='syncBadge';b.className='syncBadge';t.insertBefore(b,t.lastElementChild)}b.textContent=txt;b.className='syncBadge '+(cls||'')}
 function gate(show,mode){let g=document.getElementById('authGate');if(!g){g=document.createElement('div');g.id='authGate';document.body.appendChild(g)}if(!g.dataset.initialized){g.innerHTML='<form class="authCard" id="authForm" novalidate><div class="mark">C</div><h2 id="authTitle">Welcome back</h2><p id="authSub">Sign in to your restaurant workspace.</p><div class="field"><label>Email</label><input name="email" type="email" autocomplete="email" required></div><div class="field" id="pwField"><label>Password</label><input name="password" type="password" autocomplete="current-password" minlength="6"></div><label style="display:flex;gap:8px;align-items:center;font-size:12.5px;margin:2px 0 12px;color:var(--muted)"><input type="checkbox" id="authRemember"'+(localStorage.getItem('calytron_remember')==='1'?' checked':'')+'> Keep me signed in on this device</label><div class="authMsg" id="authMsg" role="alert"></div><button class="btn primary" id="authBtn">Sign in</button><div class="authLinks"><a id="authSwap">Create an account</a><a id="authForgot">Forgot password?</a></div><div style="text-align:center;font-size:11px;color:var(--muted);margin-top:12px">Calytron build 2026.10.10-f · <a href="mailto:support@calytron.co" style="color:inherit">support@calytron.co</a></div></form>';
- let signup=false;const msg=(t,ok)=>{const m=document.getElementById('authMsg');m.textContent=t;m.className='authMsg'+(ok?' ok':'')};
- const setMode=x=>{signup=x;authTitle.textContent=x?'Create your workspace':'Welcome back';authSub.textContent=x?'Start tracking profit in minutes.':'Sign in to your restaurant workspace.';authBtn.textContent=x?'Create account':'Sign in';authSwap.textContent=x?'I already have an account':'Create an account';msg('')};
- authSwap.onclick=()=>setMode(!signup);
- authForgot.onclick=async()=>{const e=authForm.email.value.trim();if(!e)return msg('Enter your email first.');const {error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:location.origin});msg(error?error.message:'Reset link sent. Check your email.',!error)};
- authForm.onsubmit=async ev=>{ev.preventDefault();const e=authForm.email.value.trim(),p=authForm.password.value;if(!e||p.length<6)return msg('Enter your email and a password of at least 6 characters.');authBtn.disabled=true;msg('');if(authRemember.checked)localStorage.setItem('calytron_remember','1');else localStorage.removeItem('calytron_remember');
-  try{if(signup){const {data,error}=await sb.auth.signUp({email:e,password:p,options:{emailRedirectTo:location.origin}});if(error)msg(error.message);else if(!data.session)msg('Account created. Check your email to confirm, then sign in.',true)}
-  else{const {error}=await sb.auth.signInWithPassword({email:e,password:p});if(error)msg(error.message)}}catch(x){msg('Network problem. Check your connection and try again.')}
-  authBtn.disabled=false}
+ let signup=false,resetMode=false,recoveryUpdateMode=false;
+ const msg=(t,ok)=>{const m=document.getElementById('authMsg');m.textContent=t;m.className='authMsg'+(ok?' ok':'')};
+ const passwordInput=authForm.querySelector('[name="password"]');
+ const passwordField=document.getElementById('pwField');
+ const rememberLabel=document.getElementById('authRemember').closest('label');
+ const setMode=mode=>{
+  signup=mode==='signup';resetMode=mode==='reset';recoveryUpdateMode=mode==='recovery';
+  authTitle.textContent=signup?'Create your workspace':resetMode?'Reset your password':recoveryUpdateMode?'Choose a new password':'Welcome back';
+  authSub.textContent=signup?'Start tracking profit in minutes.':resetMode?'Enter your account email and we’ll send a secure reset link.':recoveryUpdateMode?'Choose a new password for your restaurant workspace.':'Sign in to your restaurant workspace.';
+  authBtn.textContent=signup?'Create account':resetMode?'Send reset link':recoveryUpdateMode?'Update password':'Sign in';
+  authSwap.textContent=signup?'I already have an account':(resetMode||recoveryUpdateMode)?'Back to sign in':'Create an account';
+  authForgot.style.display=(resetMode||recoveryUpdateMode)?'none':'';
+  passwordField.style.display=resetMode?'none':'';
+  rememberLabel.style.display=(resetMode||recoveryUpdateMode)?'none':'flex';
+  passwordInput.autocomplete=(signup||recoveryUpdateMode)?'new-password':'current-password';
+  passwordInput.value='';passwordInput.required=!resetMode;passwordInput.minLength=resetMode?0:6;
+  msg('');
+ };
+ g.__setAuthMode=setMode;
+ authSwap.onclick=()=>setMode(signup?'signin':(resetMode||recoveryUpdateMode)?'signin':'signup');
+ authForgot.onclick=()=>setMode(resetMode?'signin':'reset');
+ authForm.onsubmit=async ev=>{
+  ev.preventDefault();
+  const e=authForm.querySelector('[name="email"]').value.trim(),p=passwordInput.value;
+  if(!e)return msg('Enter your email address.');
+  if(!resetMode&&p.length<6)return msg('Enter a password of at least 6 characters.');
+  authBtn.disabled=true;msg('');
+  try{
+   if(resetMode){
+    const {error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:location.origin});
+    if(error)msg('We could not send the reset email. Please try again later or contact support.');
+    else msg('If an account exists for that email, a password-reset link has been sent. Check your inbox and spam folder.',true);
+   }else if(recoveryUpdateMode){
+    const {error}=await sb.auth.updateUser({password:p});
+    if(error)msg(error.message);
+    else{await sb.auth.signOut();setMode('signin');msg('Password updated successfully. Sign in with your new password.',true);}
+   }else if(signup){
+    const {data,error}=await sb.auth.signUp({email:e,password:p,options:{emailRedirectTo:location.origin}});
+    if(error)msg(error.message);else if(!data.session)msg('Account created. Check your email to confirm, then sign in.',true);
+   }else{
+    const {error}=await sb.auth.signInWithPassword({email:e,password:p});
+    if(error)msg(error.message);
+   }
+  }catch(x){msg('A connection or email-service error occurred. Please try again.')}
+  finally{authBtn.disabled=false}
+ };
  g.dataset.initialized='1'}
  g.classList.toggle('show',!!show)}
 async function pushNow(){if(!sb||!uid)return;clearTimeout(_pt);badge('Saving…','busy');const stamp=Date.now();try{const {error}=await sb.from('app_state').upsert({user_id:uid,data:db,updated_at:new Date(stamp).toISOString()});if(error)throw error;localStorage.setItem(ST,stamp);badge('Synced')}catch(e){badge('Not synced: will retry','err');_pt=setTimeout(pushNow,15000)}}
@@ -2900,7 +2938,7 @@ window.__calStore={m:{},getItem(k){return localStorage.getItem('calytron_remembe
 try{const h=sessionStorage.getItem('__calHand');if(h){Object.assign(window.__calStore.m,JSON.parse(h));sessionStorage.removeItem('__calHand')}}catch(e){}
 if(localStorage.getItem('calytron_remember')!=='1')[localStorage,sessionStorage].forEach(st=>Object.keys(st).filter(k=>/^sb-.*-auth-token/.test(k)).forEach(k=>st.removeItem(k)));
 (async()=>{gate(true);const c=window.CALYTRON_CONFIG||{};if(!c.url||!c.anonKey||/YOUR-/.test(c.url+c.anonKey)||!window.supabase){const m=document.getElementById('authMsg');if(m)m.textContent='Secure sign-in could not initialize. Check the network and authentication configuration, then refresh. The workspace will not open without authentication.';const b=document.getElementById('authBtn');if(b)b.disabled=true;const f=document.getElementById('authForm');if(f)f.querySelectorAll('input,a').forEach(x=>x.style.pointerEvents='none');return}
- try{sb=window.supabase.createClient(c.url,c.anonKey,{auth:{persistSession:true,autoRefreshToken:true,storage:window.__calStore}});sb.auth.onAuthStateChange((ev,s)=>{if(ev==='SIGNED_OUT'){uid=null;gate(true)}else if(s)onSession(s)});const {data,error}=await sb.auth.getSession();if(error)throw error;if(data&&data.session)await onSession(data.session);else gate(true)}catch(err){uid=null;gate(true);const m=document.getElementById('authMsg');if(m)m.textContent='Unable to verify your session. Check your connection and refresh. Access remains locked.';}})();
+ try{sb=window.supabase.createClient(c.url,c.anonKey,{auth:{persistSession:true,autoRefreshToken:true,storage:window.__calStore}});sb.auth.onAuthStateChange((ev,s)=>{if(ev==='PASSWORD_RECOVERY'){gate(true);const g=document.getElementById('authGate');if(g&&g.__setAuthMode)g.__setAuthMode('recovery')}else if(ev==='SIGNED_OUT'){uid=null;gate(true)}else if(s)onSession(s)});const {data,error}=await sb.auth.getSession();if(error)throw error;if(data&&data.session)await onSession(data.session);else gate(true)}catch(err){uid=null;gate(true);const m=document.getElementById('authMsg');if(m)m.textContent='Unable to verify your session. Check your connection and refresh. Access remains locked.';}})();
 </script>
 
 
