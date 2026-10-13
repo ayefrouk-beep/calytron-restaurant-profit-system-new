@@ -241,7 +241,31 @@ td{border-bottom:1px solid #eceee8}tbody tr:nth-child(even) td{background:#fafbf
 <script>
 window.CALYTRON_CONFIG={url:'https://lahudcewrmtqpesxwjcs.supabase.co',anonKey:'sb_publishable_GgtbTcDXG7njYMk-vTC-8Q_tXoPl6sH'};
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+/* Resilient Supabase client loader: retry an alternate CDN if the primary is blocked or stalls. */
+(function(){
+  var urls=[
+    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js',
+    'https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'
+  ], index=0, timer;
+  function loadNext(){
+    clearTimeout(timer);
+    if(index>=urls.length){
+      var m=document.getElementById('authMsg');
+      if(m)m.textContent='Secure sign-in could not load because the authentication library is unreachable. Check your connection or try again shortly.';
+      return;
+    }
+    var s=document.createElement('script');
+    s.src=urls[index++];
+    s.async=true;
+    s.onerror=loadNext;
+    timer=setTimeout(function(){if(!window.supabase){s.remove();loadNext()}},7000);
+    s.onload=function(){clearTimeout(timer)};
+    document.head.appendChild(s);
+  }
+  loadNext();
+})();
+</script>
 </head>
 <body>
 <div id="authGate" class="show" role="dialog" aria-modal="true" aria-label="Account sign in"><div class="authCard"><div class="mark">C</div><h2>Secure sign in</h2><p>Authentication is initializing. Your workspace remains locked until sign-in is verified.</p><div class="authMsg" role="status">If this message remains, refresh the page or contact the administrator.</div></div></div>
