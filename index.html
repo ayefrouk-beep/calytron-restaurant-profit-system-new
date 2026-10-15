@@ -242,8 +242,16 @@ td{border-bottom:1px solid #eceee8}tbody tr:nth-child(even) td{background:#fafbf
 window.CALYTRON_CONFIG={url:'https://lahudcewrmtqpesxwjcs.supabase.co',anonKey:'sb_publishable_GgtbTcDXG7njYMk-vTC-8Q_tXoPl6sH'};
 </script>
 <script>
-/* Resilient Supabase client loader: retry an alternate CDN if the primary is blocked or stalls. */
+/* Resilient Supabase client loader with a readiness promise so auth waits for the library. */
 (function(){
+  var resolveReady;
+  window.__sbReady = new Promise(function(resolve){ resolveReady=resolve; });
+  var settled=false;
+  function finish(ok){
+    if(settled)return;
+    settled=true;
+    resolveReady(!!ok);
+  }
   var urls=[
     'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js',
     'https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'
@@ -253,6 +261,7 @@ window.CALYTRON_CONFIG={url:'https://lahudcewrmtqpesxwjcs.supabase.co',anonKey:'
     if(index>=urls.length){
       var m=document.getElementById('authMsg');
       if(m)m.textContent='Secure sign-in could not load because the authentication library is unreachable. Check your connection or try again shortly.';
+      finish(false);
       return;
     }
     var s=document.createElement('script');
@@ -260,7 +269,7 @@ window.CALYTRON_CONFIG={url:'https://lahudcewrmtqpesxwjcs.supabase.co',anonKey:'
     s.async=true;
     s.onerror=loadNext;
     timer=setTimeout(function(){if(!window.supabase){s.remove();loadNext()}},7000);
-    s.onload=function(){clearTimeout(timer)};
+    s.onload=function(){clearTimeout(timer);finish(!!window.supabase)};
     document.head.appendChild(s);
   }
   loadNext();
@@ -2961,7 +2970,7 @@ const _rs3=renderSettings;renderSettings=function(){_rs3();if(!sb)return;documen
 window.__calStore={m:{},getItem(k){return localStorage.getItem('calytron_remember')==='1'?localStorage.getItem(k):(k in this.m?this.m[k]:null)},setItem(k,v){if(localStorage.getItem('calytron_remember')==='1')localStorage.setItem(k,v);else this.m[k]=v},removeItem(k){localStorage.removeItem(k);sessionStorage.removeItem(k);delete this.m[k]}};
 try{const h=sessionStorage.getItem('__calHand');if(h){Object.assign(window.__calStore.m,JSON.parse(h));sessionStorage.removeItem('__calHand')}}catch(e){}
 if(localStorage.getItem('calytron_remember')!=='1')[localStorage,sessionStorage].forEach(st=>Object.keys(st).filter(k=>/^sb-.*-auth-token/.test(k)).forEach(k=>st.removeItem(k)));
-(async()=>{gate(true);const c=window.CALYTRON_CONFIG||{};if(!c.url||!c.anonKey||/YOUR-/.test(c.url+c.anonKey)||!window.supabase){const m=document.getElementById('authMsg');if(m)m.textContent='Secure sign-in could not initialize. Check the network and authentication configuration, then refresh. The workspace will not open without authentication.';const b=document.getElementById('authBtn');if(b)b.disabled=true;const f=document.getElementById('authForm');if(f)f.querySelectorAll('input,a').forEach(x=>x.style.pointerEvents='none');return}
+(async()=>{gate(true);if(window.__sbReady)await window.__sbReady;const c=window.CALYTRON_CONFIG||{};if(!c.url||!c.anonKey||/YOUR-/.test(c.url+c.anonKey)||!window.supabase){const m=document.getElementById('authMsg');if(m)m.textContent='Secure sign-in could not initialize. Check the network and authentication configuration, then refresh. The workspace will not open without authentication.';const b=document.getElementById('authBtn');if(b)b.disabled=true;const f=document.getElementById('authForm');if(f)f.querySelectorAll('input,a').forEach(x=>x.style.pointerEvents='none');return}
  try{sb=window.supabase.createClient(c.url,c.anonKey,{auth:{persistSession:true,autoRefreshToken:true,storage:window.__calStore}});sb.auth.onAuthStateChange((ev,s)=>{if(ev==='PASSWORD_RECOVERY'){gate(true);const g=document.getElementById('authGate');if(g&&g.__setAuthMode)g.__setAuthMode('recovery')}else if(ev==='SIGNED_OUT'){uid=null;gate(true)}else if(s)onSession(s)});const {data,error}=await sb.auth.getSession();if(error)throw error;if(data&&data.session)await onSession(data.session);else gate(true)}catch(err){uid=null;gate(true);const m=document.getElementById('authMsg');if(m)m.textContent='Unable to verify your session. Check your connection and refresh. Access remains locked.';}})();
 </script>
 
