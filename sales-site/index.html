@@ -6,7 +6,9 @@
 <meta name="theme-color" content="#06201a">
 <meta name="color-scheme" content="light only">
 <meta name="description" content="CALYTRON RESTAURANT PROFIT helps restaurant owners connect menu costs, purchasing, inventory, sales and expenses to understand what drives profit. Request demo access.">
-<title>CALYTRON RESTAURANT PROFIT — Know Your Numbers</title>
+<title>CALYTRON RESTAURANT PROFIT — Know Your Numbers. Control Your Costs.</title>
+<meta property="og:type" content="website"><meta property="og:title" content="CALYTRON RESTAURANT PROFIT: know what your restaurant really earns"><meta property="og:description" content="Connect menu costs, purchasing, stock, sales and expenses in one place. Request your demo access."><meta property="og:site_name" content="CALYTRON RESTAURANT PROFIT"><meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"CALYTRON RESTAURANT PROFIT","applicationCategory":"BusinessApplication","operatingSystem":"Web","description":"Restaurant profit control: menu costing, purchasing, inventory, sales and expenses in one workspace.","publisher":{"@type":"Organization","name":"CALYTRON ENTERPRISE LIMITED","email":"Sales@calytron.co"}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
@@ -169,11 +171,78 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
  .section-head h2{font-size:34px}.metric b{font-size:20px}
  .faq summary{font-size:21px}
 }
+
+/* ===== 3D depth ===== */
+.stage{perspective:1400px;perspective-origin:50% 40%}
+.rig{position:relative;transform-style:preserve-3d;transform:rotateX(var(--rx,6deg)) rotateY(var(--ry,-14deg));transition:transform .25s ease-out;will-change:transform}
+.rig .visual{transform:translateZ(0);box-shadow:0 60px 90px -20px rgba(0,0,0,.6),0 30px 40px -20px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.1)}
+.float{position:absolute;border-radius:16px;background:linear-gradient(160deg,#fffdf6,#efe6cc);color:#1c2a22;padding:14px 18px;box-shadow:0 30px 50px -12px rgba(0,0,0,.55),0 8px 14px rgba(0,0,0,.25),inset 0 1px 0 #fff;transform-style:preserve-3d}
+.float small{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#7b6a3d;font-weight:800}
+.float b{display:block;font:400 28px var(--serif);line-height:1.1;margin-top:3px;color:#0b241e}
+.float.f1{left:-34px;bottom:56px;transform:translateZ(90px) rotateZ(-3deg);animation:bob 6s ease-in-out infinite}
+.float.f2{right:-22px;top:-26px;transform:translateZ(120px) rotateZ(3deg);animation:bob 7s ease-in-out -2s infinite;background:linear-gradient(160deg,#17795f,#0b4638);color:#f4efe2}
+.float.f2 small{color:#e8cf8c}.float.f2 b{color:#fff}
+.float.f3{right:34px;bottom:-30px;transform:translateZ(60px);animation:bob 8s ease-in-out -4s infinite;padding:10px 16px}
+.float.f3 b{font-size:20px}
+@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -10px}}
+.hero .coin3d{position:absolute;width:74px;height:74px;border-radius:50%;left:-26px;top:38px;display:grid;place-items:center;font:400 40px var(--serif);color:#2a1f08;background:radial-gradient(circle at 30% 25%,#fbeaa8,#c79a45 55%,#7b5c1e);box-shadow:0 24px 34px rgba(0,0,0,.5),inset 0 -6px 10px rgba(0,0,0,.25),inset 0 4px 6px rgba(255,255,255,.5);transform:translateZ(150px);animation:spin3d 9s linear infinite}
+@keyframes spin3d{0%{transform:translateZ(150px) rotateY(0)}100%{transform:translateZ(150px) rotateY(360deg)}}
+.tilt{transform-style:preserve-3d;transition:transform .2s ease-out,box-shadow .25s}
+.btn.gold,.btn.green{box-shadow:0 6px 0 #8a6a2c,0 16px 26px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.4)}
+.btn.green{box-shadow:0 6px 0 #0a3b2e,0 16px 26px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.2)}
+.btn.gold:hover,.btn.green:hover{transform:translateY(-2px)}
+.btn.gold:active,.btn.green:active{transform:translateY(5px);box-shadow:0 1px 0 #8a6a2c,0 6px 10px rgba(0,0,0,.25)}
+.top .links .btn.gold{box-shadow:0 4px 0 #8a6a2c,0 10px 18px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.4)}
+.feature{box-shadow:0 1px 0 #fff inset,0 18px 30px -18px rgba(11,36,30,.25)}
+.feature .num{transform:translateZ(30px);display:inline-block}
+.form{transform-style:preserve-3d;box-shadow:0 60px 90px -20px rgba(0,0,0,.55),0 20px 30px -10px rgba(0,0,0,.3)}
+
+/* ===== marketing sections ===== */
+.leaks{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.leak{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;position:relative;box-shadow:0 18px 30px -18px rgba(11,36,30,.25)}
+.leak .ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(160deg,#17795f,#0b4638);color:#e8cf8c;box-shadow:0 10px 18px rgba(15,92,73,.3),inset 0 1px 0 rgba(255,255,255,.2);margin-bottom:18px}
+.leak .ico svg{width:24px;height:24px}
+.leak h3{font-size:25px;margin-bottom:8px}.leak p{color:var(--muted);font-size:15px;margin:0}
+.leak p b{color:var(--ink)}
+.bigline{margin-top:34px;padding:26px 30px;border-radius:18px;background:linear-gradient(150deg,var(--deep2),var(--deep));color:#f4efe2;display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap;box-shadow:0 30px 60px -20px rgba(6,32,26,.5)}
+.bigline p{margin:0;font:400 clamp(22px,2.6vw,30px)/1.25 var(--serif);max-width:760px}.bigline p em{color:var(--gold2)}
+.know{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 40px;max-width:980px}
+.know div{display:flex;gap:14px;align-items:flex-start;padding:18px 0;border-bottom:1px solid var(--line)}
+.know svg{flex:none;width:26px;height:26px;color:var(--gold);margin-top:2px}
+.know b{display:block;font-size:17px;margin-bottom:2px}.know span{color:var(--muted);font-size:15px}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 60px -28px rgba(11,36,30,.4)}
+.vs>div{padding:34px}.vs .old{background:#efede2}.vs .new{background:linear-gradient(155deg,var(--deep2),var(--deep));color:#f4efe2}
+.vs h3{font-size:30px;margin-bottom:16px}.vs ul{list-style:none;padding:0;margin:0;display:grid;gap:14px}
+.vs li{padding-left:30px;position:relative;font-size:15.5px}.vs .old li{color:#55645c}.vs .new li{color:#d4e0da}
+.vs li:before{position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800}
+.vs .old li:before{content:"✕";background:#d9d3bf;color:#7a6c47}.vs .new li:before{content:"✓";background:var(--gold);color:#1b1608}
+.who{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.who div{padding:24px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:0 14px 26px -18px rgba(11,36,30,.3)}
+.who b{display:block;font:400 24px var(--serif);margin-bottom:6px}.who span{font-size:14.5px;color:var(--muted)}
+.finalcta{text-align:center;background:radial-gradient(800px 360px at 50% 0%,rgba(176,138,69,.25),transparent 65%),var(--deep);color:#f4efe2;padding:92px 0}
+.finalcta h2{font-size:clamp(36px,5vw,60px);line-height:1.05;margin:14px auto 16px;max-width:820px}.finalcta h2 em{color:var(--gold2)}
+.finalcta p{color:#c3d3cb;max-width:620px;margin:0 auto 30px;font-size:17px}
+.finalcta .actions{justify-content:center}
+.sticky{display:none}
+@media(max-width:900px){
+ .leaks,.who{grid-template-columns:1fr}.know{grid-template-columns:1fr}.vs{grid-template-columns:1fr}
+ .rig{--rx:4deg!important;--ry:-6deg!important}
+ .stage{margin-top:44px}
+ .float.f1{left:-8px}.float.f2{right:-6px}.float.f3{right:14px}
+ .hero .coin3d{left:-6px;top:20px;width:58px;height:58px;font-size:32px}
+}
+@media(max-width:560px){
+ .float b{font-size:22px}.float{padding:10px 13px}.float.f3{display:none}
+ .sticky{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(6,32,26,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid rgba(232,207,140,.25)}
+ .sticky .btn{width:100%;padding:14px}
+ body{padding-bottom:76px}
+}
+@media(prefers-reduced-motion:reduce){.float,.coin3d{animation:none!important}.rig{transition:none}}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap nav"><a class="brand" href="#top" aria-label="CALYTRON Restaurant Profit home"><span class="mark">C</span><span>CALYTRON<small>RESTAURANT PROFIT</small></span></a>
-<nav class="links" aria-label="Main navigation"><a href="#system">The system</a><a href="#workflow">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQs</a><a class="btn gold" href="#access">Request demo access</a></nav></div></header>
+<nav class="links" aria-label="Main navigation"><a href="#leaks">Why it matters</a><a href="#system">The system</a><a href="#workflow">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQs</a><a class="btn gold" href="#access">Request demo access</a></nav></div></header>
 
 <main id="top">
 <section class="hero"><div class="wrap hero-grid">
@@ -184,17 +253,26 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
   <div class="actions"><a class="btn gold" href="#access">Request demo access</a><a class="btn ghost" href="https://profit.calytron.co/?demo=1" target="_blank" rel="noopener">Explore the demo ↗</a></div>
   <div class="micro">For restaurants, cafés, takeaways, bars &amp; grills, bakeries and small restaurant groups.</div>
  </div>
- <div class="visual" role="img" aria-label="Illustrative product concept, not a live screenshot">
+ <div class="stage" id="stage"><div class="rig" id="rig"><div class="coin3d" aria-hidden="true">C</div><div class="visual" role="img" aria-label="Illustrative product concept, not a live screenshot">
   <div class="v-top"><span>CALYTRON / RESTAURANT PROFIT</span><span>PRODUCT CONCEPT</span></div>
   <div class="v-title">Know your numbers.</div><div class="v-sub">A clearer view of the drivers behind restaurant profit.</div>
   <div class="metrics"><div class="metric"><small>Sales &amp; revenue</small><b>Track activity</b></div><div class="metric"><small>Menu profitability</small><b>Know the margin</b></div><div class="metric"><small>Purchasing &amp; stock</small><b>Watch costs</b></div><div class="metric"><small>Expenses</small><b>See the outflow</b></div></div>
   <div class="chart" aria-hidden="true"><i style="height:34%"></i><i style="height:51%"></i><i style="height:43%"></i><i style="height:70%"></i><i style="height:61%"></i><i style="height:86%"></i><i style="height:74%"></i><i style="height:95%"></i></div>
   <div class="v-note">Illustrative visual only. Not a live screenshot or real business data.</div>
- </div>
+</div><div class="float f2" aria-hidden="true"><small>Net profit estimate</small><b>See it clearly</b></div><div class="float f1" aria-hidden="true"><small>Menu margin</small><b>Know every dish</b></div><div class="float f3" aria-hidden="true"><small>Food cost</small><b>Under control</b></div></div></div>
 </div></section>
 
 <div class="strip"><div class="wrap strip-grid"><div><strong>Menu cost visibility</strong><span>Understand item-level economics</span></div><div><strong>Inventory awareness</strong><span>Keep stock in the conversation</span></div><div><strong>Expense control</strong><span>See where operating money goes</span></div><div><strong>Owner-focused insights</strong><span>Investigate profit drivers</span></div></div></div>
 
+<section class="pad" id="leaks"><div class="wrap">
+ <div class="section-head reveal"><div class="eyebrow dk">Where the money goes</div><h2>A full dining room can still lose money.</h2><p>Most owners watch sales. Profit is decided in the quiet places: what dishes really cost, what gets bought, what gets wasted and what the business spends.</p></div>
+ <div class="leaks">
+  <article class="leak tilt reveal"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg></div><h3>Prices set by feel</h3><p>If a dish was priced before ingredient costs changed, you may be <b>selling a bestseller at a thin margin</b> without knowing it.</p></article>
+  <article class="leak tilt reveal"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1 12H7L6 7zM9 7a3 3 0 016 0"/></svg></div><h3>Purchasing that drifts</h3><p>Supplier prices move. Without purchases and stock in the same picture, <b>rising costs hide inside a busy week</b>.</p></article>
+  <article class="leak tilt reveal"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M8 7.5c0-1.4 1.8-2.5 4-2.5s4 1.1 4 2.5-1.8 2.5-4 2.5-4 1.1-4 2.5S9.8 15 12 15s4 1.1 4 2.5S14.2 20 12 20s-4-1.1-4-2.5"/></svg></div><h3>Expenses nobody adds up</h3><p>Small operating costs are easy to forget. Together they decide <b>how much is actually left</b> at month end.</p></article>
+ </div>
+ <div class="bigline reveal"><p>Know the real cost of every dish, and <em>decide with numbers, not hunches.</em></p><a class="btn gold" href="#access">Request demo access</a></div>
+</div></section>
 <section class="pad" id="system"><div class="wrap">
  <div class="section-head reveal"><div class="eyebrow dk">One focused workspace</div><h2>Move beyond sales totals. Understand what shapes your profit.</h2><p>Restaurant performance depends on the relationship between what comes in, what gets used, what gets sold and what the business spends. The system is built around that relationship.</p></div>
  <div class="features">
@@ -207,6 +285,25 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
  </div>
 </div></section>
 
+<section class="pad" style="padding-top:20px" id="know"><div class="wrap">
+ <div class="section-head reveal"><div class="eyebrow dk">What you will see</div><h2>Answers an owner actually needs.</h2><p>Instead of one long list of records, the system is organised around the questions behind profit.</p></div>
+ <div class="know reveal">
+  <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></svg><p style="margin:0"><b>Which dishes earn the most, and which barely pay for themselves?</b><span>Compare selling price, recipe cost and estimated margin side by side.</span></p></div>
+  <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></svg><p style="margin:0"><b>What is your food cost for the period?</b><span>Choose today, this week, this month or your own dates.</span></p></div>
+  <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></svg><p style="margin:0"><b>Where is stock and purchasing going?</b><span>Keep ingredient buying and stock levels in the same conversation as sales.</span></p></div>
+  <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></svg><p style="margin:0"><b>What did the business spend?</b><span>Record operating expenses and see how they change what is left.</span></p></div>
+  <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></svg><p style="margin:0"><b>How is revenue, cost and labour moving?</b><span>Owner insights for revenue, cost and labour, in plain language.</span></p></div>
+  <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></svg><p style="margin:0"><b>What should I look at first?</b><span>A dashboard that brings the key numbers together on one screen, on your phone too.</span></p></div>
+ </div>
+</div></section>
+
+<section class="pad" style="padding-top:20px"><div class="wrap">
+ <div class="section-head reveal"><div class="eyebrow dk">The difference</div><h2>From scattered records to one clear picture.</h2></div>
+ <div class="vs reveal">
+  <div class="old"><h3>Without a system</h3><ul><li>Prices based on habit or guesswork</li><li>Costs scattered across notebooks, chats and spreadsheets</li><li>Profit only clear when the accountant calls</li><li>Problems found after the month is gone</li></ul></div>
+  <div class="new"><h3>With CALYTRON</h3><ul><li>Menu cost and margin visible dish by dish</li><li>Purchasing, stock, sales and expenses in one workspace</li><li>Key numbers on one dashboard, any day you check</li><li>Issues spotted while you can still act</li></ul></div>
+ </div>
+</div></section>
 <section class="pad flow" id="workflow"><div class="wrap">
  <div class="section-head reveal"><div class="eyebrow dk">How to explore</div><h2>A practical path from records to better questions.</h2><p>Start with the demo and inspect the workflows in the current application. Check the features and calculations against your own requirements before relying on them in operations.</p></div>
  <div class="steps">
@@ -249,6 +346,14 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
  </div>
 </div></section>
 
+<section class="pad" style="padding-top:20px" id="who"><div class="wrap">
+ <div class="section-head reveal"><div class="eyebrow dk">Built for owners</div><h2>If you run the numbers in your head, this is for you.</h2></div>
+ <div class="who reveal">
+  <div><b>Owner-operators</b><span>You are on the floor all day. You need the numbers in minutes, not hours.</span></div>
+  <div><b>Cafés &amp; bakeries</b><span>Many small items, tight margins. See which ones really carry the business.</span></div>
+  <div><b>Restaurants, bars &amp; takeaways</b><span>Menus change and prices move. Keep costs and margins in view as they do.</span></div>
+ </div>
+</div></section>
 <section class="pad" id="pricing"><div class="wrap"><div class="pricing reveal"><div><div class="eyebrow">Planned pricing</div><h2>Make profit control part of the routine.</h2><p>Review the system before deciding whether it fits your restaurant. This website provides product information and demo requests; it does not take payments or activate subscriptions.</p><a class="btn gold" href="#access">Request demo access</a></div>
 <div class="price"><div class="eyebrow">Indicative subscription</div><div style="margin-top:12px"><strong>$29</strong> <small>/ month</small></div><ul><li>Access details confirmed before sale</li><li>Payment checkout not yet connected</li><li>No charge is made on this website</li></ul><small>Price shown for planning; paid subscriptions are not yet enabled.</small></div></div></div></section>
 
@@ -260,7 +365,9 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
 <details><summary>Does this page guarantee every feature is live?</summary><p>No. This page describes the product's purpose and intended workflows. The actual application and verified test results determine which features are available.</p></details>
 <details><summary>How can I contact CALYTRON?</summary><p>Email <a href="mailto:Sales@calytron.co">Sales@calytron.co</a> for product and commercial enquiries.</p></details>
 </div></div></section>
+<section class="finalcta"><div class="wrap reveal"><div class="eyebrow">Take the first step</div><h2>Stop guessing. Start <em>knowing your numbers.</em></h2><p>Request your demo access today. It takes a minute, costs nothing and there is no obligation.</p><div class="actions"><a class="btn gold" href="#access">Request demo access</a><a class="btn ghost" href="https://profit.calytron.co/?demo=1" target="_blank" rel="noopener">Explore the demo ↗</a></div></div></section>
 </main>
+<div class="sticky"><a class="btn gold" href="#access">Request demo access</a></div>
 
 <footer><div class="wrap foot"><div><b>CALYTRON RESTAURANT PROFIT</b><br>Know Your Numbers. Control Your Costs. Grow Your Profit.</div><div>Product by CALYTRON ENTERPRISE LIMITED<br><a href="mailto:Sales@calytron.co">Sales@calytron.co</a> · <a href="https://profit.calytron.co/">Open the application</a></div><div>© <span id="year"></span> CALYTRON ENTERPRISE LIMITED.</div></div></footer>
 
@@ -270,6 +377,15 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
  // gentle reveal on scroll
  var els=[].slice.call(document.querySelectorAll('.reveal'));
  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});els.forEach(function(el){io.observe(el)})}else{els.forEach(function(el){el.classList.add('in')})}
+
+ 
+ // 3D tilt (pointer devices only, respects reduced motion)
+ var fine=window.matchMedia&&matchMedia('(hover:hover) and (pointer:fine)').matches,calm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+ if(fine&&!calm){
+  var stage=document.getElementById('stage'),rig=document.getElementById('rig');
+  if(stage&&rig){stage.addEventListener('mousemove',function(e){var r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;rig.style.setProperty('--ry',(-14+x*16)+'deg');rig.style.setProperty('--rx',(6-y*12)+'deg')});stage.addEventListener('mouseleave',function(){rig.style.removeProperty('--ry');rig.style.removeProperty('--rx')})}
+  [].forEach.call(document.querySelectorAll('.tilt,.feature'),function(c){c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform='perspective(900px) rotateY('+(x*9)+'deg) rotateX('+(-y*9)+'deg) translateY(-3px)'});c.addEventListener('mouseleave',function(){c.style.transform=''})});
+ }
 
  var SB='https://lahudcewrmtqpesxwjcs.supabase.co',KEY='sb_publishable_GgtbTcDXG7njYMk-vTC-8Q_tXoPl6sH';
  var form=document.getElementById('leadForm'),btn=document.getElementById('sendBtn'),msg=document.getElementById('formMsg');
