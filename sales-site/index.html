@@ -237,12 +237,31 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
  .sticky .btn{width:100%;padding:14px}
  body{padding-bottom:76px}
 }
+
+.menusec{background:radial-gradient(900px 480px at 0% 0%,rgba(23,121,95,.35),transparent 60%),radial-gradient(800px 500px at 100% 100%,rgba(176,138,69,.2),transparent 60%),var(--deep);color:#f4efe2;overflow:hidden}
+.menusec .section-head h2{color:#f9f3e2}.menusec .section-head p{color:#c3d3cb}
+.mgrid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
+.quad-stage{perspective:1300px}
+.quad{display:grid;grid-template-columns:1fr 1fr;gap:14px;transform-style:preserve-3d;transform:rotateX(10deg) rotateY(-12deg);transition:transform .25s ease-out}
+.q{border-radius:20px;padding:22px 20px;box-shadow:0 40px 50px -22px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.18);min-height:150px;position:relative;transform-style:preserve-3d}
+.q small{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;opacity:.8}
+.q b{display:block;font:400 30px var(--serif);margin:6px 0 6px}.q p{margin:0;font-size:13.5px;line-height:1.45;opacity:.92}
+.q.star{background:linear-gradient(155deg,#e8cf8c,#b08a45);color:#1b1608;transform:translateZ(60px)}
+.q.plow{background:linear-gradient(155deg,#1f6b57,#0f4a3b);transform:translateZ(30px)}
+.q.puz{background:linear-gradient(155deg,#2a3f37,#16261f);border:1px solid rgba(232,207,140,.25);transform:translateZ(20px)}
+.q.dog{background:linear-gradient(155deg,#33403a,#1a241f);transform:translateZ(0)}
+.mfeat{list-style:none;padding:0;margin:26px 0 30px;display:grid;gap:14px}
+.mfeat li{display:flex;gap:12px;align-items:flex-start;color:#d4e0da;font-size:15.5px}
+.mfeat svg{flex:none;width:22px;height:22px;margin-top:2px;color:var(--gold2)}
+.mfeat b{color:#f9f3e2}
+@media(max-width:900px){.mgrid{grid-template-columns:1fr;gap:44px}.quad{transform:rotateX(6deg) rotateY(-6deg)}}
+@media(max-width:560px){.q{min-height:0;padding:18px 16px}.q b{font-size:25px}.q p{font-size:12.5px}}
 @media(prefers-reduced-motion:reduce){.float,.coin3d{animation:none!important}.rig{transition:none}}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap nav"><a class="brand" href="#top" aria-label="CALYTRON Restaurant Profit home"><span class="mark">C</span><span>CALYTRON<small>RESTAURANT PROFIT</small></span></a>
-<nav class="links" aria-label="Main navigation"><a href="#leaks">Why it matters</a><a href="#system">The system</a><a href="#workflow">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQs</a><a class="btn gold" href="#access">Request demo access</a></nav></div></header>
+<nav class="links" aria-label="Main navigation"><a href="#leaks">Why it matters</a><a href="#menu">Menu Builder</a><a href="#system">The system</a><a href="#workflow">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQs</a><a class="btn gold" href="#access">Request demo access</a></nav></div></header>
 
 <main id="top">
 <section class="hero"><div class="wrap hero-grid">
@@ -262,7 +281,7 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
 </div><div class="float f2" aria-hidden="true"><small>Net profit estimate</small><b>See it clearly</b></div><div class="float f1" aria-hidden="true"><small>Menu margin</small><b>Know every dish</b></div><div class="float f3" aria-hidden="true"><small>Food cost</small><b>Under control</b></div></div></div>
 </div></section>
 
-<div class="strip"><div class="wrap strip-grid"><div><strong>Menu cost visibility</strong><span>Understand item-level economics</span></div><div><strong>Inventory awareness</strong><span>Keep stock in the conversation</span></div><div><strong>Expense control</strong><span>See where operating money goes</span></div><div><strong>Owner-focused insights</strong><span>Investigate profit drivers</span></div></div></div>
+<div class="strip"><div class="wrap strip-grid"><div><strong>Menu Builder</strong><span>Build, cost and engineer your menu</span></div><div><strong>Inventory awareness</strong><span>Keep stock in the conversation</span></div><div><strong>Expense control</strong><span>See where operating money goes</span></div><div><strong>Owner-focused insights</strong><span>Investigate profit drivers</span></div></div></div>
 
 <section class="pad" id="leaks"><div class="wrap">
  <div class="section-head reveal"><div class="eyebrow dk">Where the money goes</div><h2>A full dining room can still lose money.</h2><p>Most owners watch sales. Profit is decided in the quiet places: what dishes really cost, what gets bought, what gets wasted and what the business spends.</p></div>
@@ -273,6 +292,28 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
  </div>
  <div class="bigline reveal"><p>Know the real cost of every dish, and <em>decide with numbers, not hunches.</em></p><a class="btn gold" href="#access">Request demo access</a></div>
 </div></section>
+<section class="pad menusec" id="menu"><div class="wrap mgrid">
+ <div class="reveal">
+  <div class="eyebrow">Menu Builder &amp; Menu Engineering</div>
+  <div class="section-head" style="margin:14px 0 0"><h2>Your menu is your most powerful profit tool.</h2><p>Build a beautiful, priced and costed menu, then see which dishes to promote, reprice or rework. All in one place.</p></div>
+  <ul class="mfeat">
+   <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></svg><span><b>Build your menu in minutes.</b> Add dishes with prices, descriptions and tags such as vegan or spicy, and feature chef's picks.</span></li>
+   <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></svg><span><b>See every dish's true margin.</b> Link recipe costs to selling prices so you know what each plate really earns.</span></li>
+   <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></svg><span><b>Menu engineering made simple.</b> Dishes are sorted into Stars, Plow horses, Puzzles and Dogs, with clear advice on what to do next.</span></li>
+   <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></svg><span><b>Test price changes first.</b> Try what-if pricing before you change a single printed menu.</span></li>
+   <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></svg><span><b>A menu readiness score</b> shows what is still missing: costs, prices, descriptions or tags.</span></li>
+   <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></svg><span><b>Print or save as PDF</b> with your logo and a theme that suits your restaurant, ready for the table.</span></li>
+  </ul>
+  <a class="btn gold" href="#access">See the Menu Builder in the demo</a>
+ </div>
+ <div class="quad-stage reveal" id="quadStage"><div class="quad" id="quad">
+  <div class="q star"><small>High margin · Popular</small><b>Stars</b><p>Your winners. Keep them in view and promote them.</p></div>
+  <div class="q plow"><small>Popular · Thin margin</small><b>Plow horses</b><p>Guests love them, but they earn little. Nudge the price or trim the cost.</p></div>
+  <div class="q puz"><small>High margin · Less popular</small><b>Puzzles</b><p>Profitable dishes few people order. Reposition or describe them better.</p></div>
+  <div class="q dog"><small>Low margin · Less popular</small><b>Dogs</b><p>Rework, replace or remove, and free the menu for dishes that earn.</p></div>
+ </div></div>
+</div></section>
+
 <section class="pad" id="system"><div class="wrap">
  <div class="section-head reveal"><div class="eyebrow dk">One focused workspace</div><h2>Move beyond sales totals. Understand what shapes your profit.</h2><p>Restaurant performance depends on the relationship between what comes in, what gets used, what gets sold and what the business spends. The system is built around that relationship.</p></div>
  <div class="features">
@@ -281,7 +322,7 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
   <article class="feature reveal"><div class="num">03</div><h3>Sales records</h3><p>Capture sales activity and compare it with the costs and expenses that affect the result.</p></article>
   <article class="feature reveal"><div class="num">04</div><h3>Expense awareness</h3><p>Record operating expenses and understand how spending changes the amount left over.</p></article>
   <article class="feature reveal"><div class="num">05</div><h3>Owner dashboard</h3><p>Bring key business indicators together so the next question is easier to identify.</p></article>
-  <article class="feature reveal"><div class="num">06</div><h3>Menu-building workflow</h3><p>Explore menu structure and cost assumptions in a workflow designed for restaurant decisions.</p></article>
+  <article class="feature reveal"><div class="num">06</div><h3>Menu Builder</h3><p>Design a priced, costed menu with themes and your logo, then print or save it as a PDF.</p></article>
  </div>
 </div></section>
 
@@ -384,6 +425,7 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
  if(fine&&!calm){
   var stage=document.getElementById('stage'),rig=document.getElementById('rig');
   if(stage&&rig){stage.addEventListener('mousemove',function(e){var r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;rig.style.setProperty('--ry',(-14+x*16)+'deg');rig.style.setProperty('--rx',(6-y*12)+'deg')});stage.addEventListener('mouseleave',function(){rig.style.removeProperty('--ry');rig.style.removeProperty('--rx')})}
+  var qs=document.getElementById('quadStage'),qd=document.getElementById('quad');if(qs&&qd){qs.addEventListener('mousemove',function(e){var r=qs.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;qd.style.transform='rotateX('+(10-y*12)+'deg) rotateY('+(-12+x*16)+'deg)'});qs.addEventListener('mouseleave',function(){qd.style.transform=''})}
   [].forEach.call(document.querySelectorAll('.tilt,.feature'),function(c){c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform='perspective(900px) rotateY('+(x*9)+'deg) rotateX('+(-y*9)+'deg) translateY(-3px)'});c.addEventListener('mouseleave',function(){c.style.transform=''})});
  }
 
