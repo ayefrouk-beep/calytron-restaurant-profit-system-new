@@ -256,12 +256,45 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
 .mfeat b{color:#f9f3e2}
 @media(max-width:900px){.mgrid{grid-template-columns:1fr;gap:44px}.quad{transform:rotateX(6deg) rotateY(-6deg)}}
 @media(max-width:560px){.q{min-height:0;padding:18px 16px}.q b{font-size:25px}.q p{font-size:12.5px}}
+
+.growth{background:linear-gradient(180deg,#f6f4ec,#ecebe0)}
+.ggrid{display:grid;grid-template-columns:.95fr 1.05fr;gap:64px;align-items:center}
+.badge{display:inline-flex;gap:8px;align-items:center;padding:7px 14px;border-radius:999px;background:linear-gradient(160deg,#17795f,#0b4638);color:#e8cf8c;font:800 11px var(--sans);letter-spacing:.16em;text-transform:uppercase;box-shadow:0 8px 16px rgba(15,92,73,.3)}
+.growth h2{font-size:clamp(36px,4.8vw,60px);line-height:1.04;margin:18px 0 16px}.growth h2 em{color:#9a7a38}
+.growth p.lead{color:var(--muted);font-size:17.5px;margin:0 0 8px;max-width:560px}
+.gfeat{list-style:none;padding:0;margin:26px 0 22px;display:grid;gap:16px}
+.gfeat li{display:flex;gap:14px;align-items:flex-start}
+.gfeat .gi{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(160deg,#17795f,#0b4638);color:#e8cf8c;box-shadow:0 8px 14px rgba(15,92,73,.28),inset 0 1px 0 rgba(255,255,255,.2)}
+.gfeat .gi svg{width:20px;height:20px}
+.gfeat b{display:block;font-size:16.5px}.gfeat span{color:var(--muted);font-size:14.5px}
+.gnote{margin:0 0 26px;padding:14px 16px;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:13.5px;color:#55645c;line-height:1.5}
+.gnote b{color:var(--ink)}
+.gstage{perspective:1400px;min-height:520px;display:grid;place-items:center}
+.grig{position:relative;width:min(440px,100%);height:520px;margin-bottom:44px;transform-style:preserve-3d;transform:rotateX(8deg) rotateY(14deg);transition:transform .25s ease-out}
+.gc{position:absolute;border-radius:20px;box-shadow:0 40px 60px -22px rgba(6,32,26,.55),0 10px 16px rgba(6,32,26,.15);transform-style:preserve-3d}
+.gc.post{left:0;top:8px;width:78%;background:linear-gradient(160deg,var(--deep2),var(--deep));color:#f4efe2;padding:22px;transform:translateZ(20px);border:1px solid rgba(232,207,140,.25)}
+.gc.post .tag{font-size:10px;letter-spacing:.16em;color:var(--gold2);font-weight:800}
+.gc.post .pic{height:96px;border-radius:12px;margin:12px 0;background:radial-gradient(circle at 30% 30%,#e8cf8c,#b08a45 45%,#6a4f1c);display:grid;place-items:center;font:400 44px var(--serif);color:#2a1f08}
+.gc.post b{font:400 24px/1.15 var(--serif);display:block}.gc.post p{font-size:13px;color:#c3d3cb;margin:6px 0 0}
+.gc.plan{right:0;top:248px;width:72%;background:linear-gradient(160deg,#fffdf6,#efe6cc);padding:20px;transform:translateZ(90px) rotateZ(2deg)}
+.gc.plan small{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#7b6a3d;font-weight:800}
+.gc.plan b{display:block;font:400 22px var(--serif);margin:4px 0 10px;color:#0b241e}
+.gc.plan div.ok{display:flex;gap:8px;align-items:center;font-size:13px;color:#14634e;font-weight:700;background:#e5f3ec;border-radius:10px;padding:9px 12px}
+.gc.plan div.ok:before{content:"✓";display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#17795f;color:#fff;font-size:12px}
+.gc.res{left:8px;top:372px;width:72%;background:linear-gradient(160deg,#17795f,#0b4638);color:#f4efe2;padding:18px 20px;transform:translateZ(150px) rotateZ(-2deg)}
+.gc.res small{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#e8cf8c;font-weight:800}
+.gc.res b{display:block;font:400 30px var(--serif);margin-top:2px}.gc.res span{font-size:12px;color:#c3d3cb}
+.gsample{position:absolute;left:0;bottom:-18px;font-size:11px;color:#6a7a72;letter-spacing:.04em}
+.fcheck{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:#2a3d35;margin:2px 0 14px;cursor:pointer}
+.fcheck input{width:18px;height:18px;margin-top:2px;accent-color:#0f5c49;flex:none}
+@media(max-width:900px){.ggrid{grid-template-columns:1fr;gap:34px}.gstage{min-height:540px}.grig{transform:rotateX(5deg) rotateY(6deg);height:520px}}
+@media(max-width:560px){.gc.plan{top:244px;width:80%}.gc.res{top:372px;width:82%}.gc.res b{font-size:25px}}
 @media(prefers-reduced-motion:reduce){.float,.coin3d{animation:none!important}.rig{transition:none}}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap nav"><a class="brand" href="#top" aria-label="CALYTRON Restaurant Profit home"><span class="mark">C</span><span>CALYTRON<small>RESTAURANT PROFIT</small></span></a>
-<nav class="links" aria-label="Main navigation"><a href="#leaks">Why it matters</a><a href="#menu">Menu Builder</a><a href="#system">The system</a><a href="#workflow">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQs</a><a class="btn gold" href="#access">Request demo access</a></nav></div></header>
+<nav class="links" aria-label="Main navigation"><a href="#leaks">Why it matters</a><a href="#menu">Menu Builder</a><a href="#growth">Growth AI</a><a href="#system">The system</a><a href="#workflow">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQs</a><a class="btn gold" href="#access">Request demo access</a></nav></div></header>
 
 <main id="top">
 <section class="hero"><div class="wrap hero-grid">
@@ -311,6 +344,30 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
   <div class="q plow"><small>Popular · Thin margin</small><b>Plow horses</b><p>Guests love them, but they earn little. Nudge the price or trim the cost.</p></div>
   <div class="q puz"><small>High margin · Less popular</small><b>Puzzles</b><p>Profitable dishes few people order. Reposition or describe them better.</p></div>
   <div class="q dog"><small>Low margin · Less popular</small><b>Dogs</b><p>Rework, replace or remove, and free the menu for dishes that earn.</p></div>
+ </div></div>
+</div></section>
+
+<section class="pad growth" id="growth"><div class="wrap ggrid">
+ <div class="reveal">
+  <span class="badge">Calytron Growth AI · Early access</span>
+  <h2>Turn your best dishes into <em>full tables.</em></h2>
+  <p class="lead">Plan, write and track marketing campaigns for your restaurant. Margin-checked offers, ready-to-post content and honest results tracking, so social media brings in guests, leads and orders.</p>
+  <ul class="gfeat">
+   <li><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></span><div><b>Campaign Strategist</b><span>Answer three quick questions: what to promote, your goal (more orders, a new dish, quiet periods, bringing guests back) and what offer.</span></div></li>
+   <li><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg></span><div><b>Offers that protect your margin</b><span>Connects to your food costs so a discount does not quietly lose money. No cost entered means no "profitable" label.</span></div></li>
+   <li><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span><div><b>Content Studio</b><span>Ready-to-post captions and artwork for Instagram, Reels, Stories, TikTok, Facebook, WhatsApp status, YouTube Shorts, X, Google Business Profile and printed flyers, with format tips for each.</span></div></li>
+   <li><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg></span><div><b>A weekly plan</b><span>A planner that suggests what to post and when, so marketing stops being last-minute.</span></div></li>
+   <li><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5M17 11a3 3 0 100-6M18 14.8c2 .6 3.3 2.2 3.5 5"/></svg></span><div><b>Your guest list, with consent</b><span>Keep opted-in guests in one place and bring them back.</span></div></li>
+   <li><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-9M15 7h5v5"/></svg></span><div><b>Honest results</b><span>You log the orders a campaign brings. Figures the app cannot measure are shown as unavailable, never invented.</span></div></li>
+  </ul>
+  <div class="gnote"><b>Early access, in plain words.</b> Today, content is built from smart templates plus your own menu and brand details, and you export it and post it yourself. Live platform connections and live AI assistance are planned for later.</div>
+  <a class="btn green" href="#access">Join the Growth AI early-access list</a>
+ </div>
+ <div class="gstage reveal" id="gStage"><div class="grig" id="gRig">
+  <div class="gc post"><div class="tag">INSTAGRAM POST · SAMPLE</div><div class="pic">C</div><b>Weekend table for the whole family</b></div>
+  <div class="gc plan"><small>Campaign plan</small><b>Fill quiet lunchtimes</b><div class="ok">Margin check: offer still earns</div></div>
+  <div class="gc res"><small>Orders from this campaign</small><b>You log it. We keep it honest.</b><span>No made-up reach or clicks.</span></div>
+  <div class="gsample">Illustrative sample, not real results.</div>
  </div></div>
 </div></section>
 
@@ -378,6 +435,7 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
     <div class="field" data-f="business"><label for="bz">Restaurant name <i>(optional)</i></label><input id="bz" name="business" autocomplete="organization" placeholder="Your restaurant" maxlength="140"></div>
     <div class="field" data-f="type"><label for="ty">Type of business <i>(optional)</i></label><select id="ty" name="business_type"><option value="">Select…</option><option>Restaurant</option><option>Café / coffee shop</option><option>Takeaway / fast food</option><option>Bar &amp; grill</option><option>Bakery</option><option>Restaurant group</option><option>Other</option></select></div>
    </div>
+   <label class="fcheck"><input type="checkbox" name="growth" id="gAI"><span>I am also interested in <b>Calytron Growth AI</b> (early access)</span></label>
    <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
    <div class="formmsg" id="formMsg" role="alert"></div>
    <button class="btn gold" id="sendBtn" type="submit">Request access</button>
@@ -425,6 +483,7 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
  if(fine&&!calm){
   var stage=document.getElementById('stage'),rig=document.getElementById('rig');
   if(stage&&rig){stage.addEventListener('mousemove',function(e){var r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;rig.style.setProperty('--ry',(-14+x*16)+'deg');rig.style.setProperty('--rx',(6-y*12)+'deg')});stage.addEventListener('mouseleave',function(){rig.style.removeProperty('--ry');rig.style.removeProperty('--rx')})}
+  var gs=document.getElementById('gStage'),gr=document.getElementById('gRig');if(gs&&gr){gs.addEventListener('mousemove',function(e){var r=gs.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;gr.style.transform='rotateX('+(8-y*12)+'deg) rotateY('+(14+x*16)+'deg)'});gs.addEventListener('mouseleave',function(){gr.style.transform=''})}
   var qs=document.getElementById('quadStage'),qd=document.getElementById('quad');if(qs&&qd){qs.addEventListener('mousemove',function(e){var r=qs.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;qd.style.transform='rotateX('+(10-y*12)+'deg) rotateY('+(-12+x*16)+'deg)'});qs.addEventListener('mouseleave',function(){qd.style.transform=''})}
   [].forEach.call(document.querySelectorAll('.tilt,.feature'),function(c){c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform='perspective(900px) rotateY('+(x*9)+'deg) rotateX('+(-y*9)+'deg) translateY(-3px)'});c.addEventListener('mouseleave',function(){c.style.transform=''})});
  }
@@ -442,7 +501,7 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
   setBad('full_name',!okName);setBad('phone',!okPhone);setBad('email',!okMail);
   if(!(okName&&okPhone&&okMail)){var first=form.querySelector('.field.bad input');if(first)first.focus();return}
   btn.classList.add('busy');btn.disabled=true;msg.classList.remove('show');
-  var body=JSON.stringify({full_name:v.full_name,phone:v.phone,email:v.email,business:v.business||null,business_type:v.business_type||null,source:'sales-site',page:location.href.slice(0,300)});
+  var body=JSON.stringify({full_name:v.full_name,phone:v.phone,email:v.email,business:v.business||null,business_type:v.business_type||null,source:(form.growth.checked?'sales-site+growth-ai':'sales-site'),page:location.href.slice(0,300)});
   var ctl=('AbortController' in window)?new AbortController():null,t=setTimeout(function(){ctl&&ctl.abort()},15000);
   fetch(SB+'/rest/v1/demo_requests',{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:body,signal:ctl?ctl.signal:undefined})
   .then(function(r){clearTimeout(t);if(!r.ok)throw new Error('http '+r.status);
