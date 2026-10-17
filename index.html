@@ -309,7 +309,7 @@ window.CALYTRON_CONFIG={url:'https://lahudcewrmtqpesxwjcs.supabase.co',anonKey:'
  <div style="margin-top:20px;padding:12px;color:#8295aa;font-size:11px">Secure cloud workspace<br>Sign-in required.</div>
 </aside>
 <main class="main">
-<header class="top"><div style="display:flex;gap:10px;align-items:center"><button class="mobileMenu" onclick="toggleSide()">☰</button><div><h1 id="pageTitle">Dashboard</h1><small id="restaurantTop">Northstar Kitchen & Grill • ZMW</small></div></div><div class="actions"><button class="btn sm" onclick="openSetup()">⚙ Setup</button><button class="btn sm primary" onclick="openQuick()">＋ Quick Entry</button></div></header>
+<header class="top"><div style="display:flex;gap:10px;align-items:center"><button class="mobileMenu" onclick="toggleSide()">☰</button><div><h1 id="pageTitle">Dashboard</h1><small id="restaurantTop">Northstar Kitchen & Grill • USD</small></div></div><div class="actions"><button class="btn sm" onclick="openSetup()">⚙ Setup</button><button class="btn sm primary" onclick="openQuick()">＋ Quick Entry</button></div></header>
 <div class="content">
 <section class="view active" id="dashboard"></section>
 <section class="view" id="sales"></section>
@@ -1966,7 +1966,7 @@ const seed={
   {"date":today(-0),"item":"Chicken","qty":1.5,"unit":"kg","cost":100.44,"reason":"Overproduction","staff":"Kitchen","location":"Main","id":29,"_ded":[{"n":"Chicken","q":1.5}]}
  ],
  expenses:[
-  {"date":today(-26),"desc":"ZESCO prepaid electricity units","cat":"Utilities","amount":1800,"payment":"Digital Wallet","note":"Meter top-up","id":1},
+  {"date":today(-26),"desc":"Prepaid electricity units","cat":"Utilities","amount":1800,"payment":"Digital Wallet","note":"Meter top-up","id":1},
   {"date":today(-26),"desc":"Council trading licence","cat":"Licenses","amount":1500,"payment":"Bank Transfer","note":"Annual renewal","id":2},
   {"date":today(-26),"desc":"Market run taxi","cat":"Transport","amount":100,"payment":"Cash","note":"","id":3},
   {"date":today(-25),"desc":"Internet (fibre) monthly","cat":"Utilities","amount":900,"payment":"Digital Wallet","note":"","id":4},
@@ -1979,13 +1979,13 @@ const seed={
   {"date":today(-21),"desc":"LPG gas refill (48kg)","cat":"Utilities","amount":1250,"payment":"Digital Wallet","note":"","id":11},
   {"date":today(-21),"desc":"Market run taxi","cat":"Transport","amount":110,"payment":"Cash","note":"","id":12},
   {"date":today(-20),"desc":"Cleaning supplies","cat":"Supplies","amount":650,"payment":"Cash","note":"Detergent, bleach, mop heads","id":13},
-  {"date":today(-19),"desc":"ZESCO prepaid electricity units","cat":"Utilities","amount":1800,"payment":"Digital Wallet","note":"","id":14},
+  {"date":today(-19),"desc":"Prepaid electricity units","cat":"Utilities","amount":1800,"payment":"Digital Wallet","note":"","id":14},
   {"date":today(-18),"desc":"Market run taxi","cat":"Transport","amount":95,"payment":"Cash","note":"","id":15},
   {"date":today(-17),"desc":"Charcoal for grill","cat":"Supplies","amount":220,"payment":"Cash","note":"","id":16},
   {"date":today(-15),"desc":"Generator diesel (load shedding)","cat":"Utilities","amount":900,"payment":"Cash","note":"","id":17},
   {"date":today(-15),"desc":"Market run taxi","cat":"Transport","amount":100,"payment":"Cash","note":"","id":18},
   {"date":today(-13),"desc":"Cold room compressor service","cat":"Repairs","amount":1800,"payment":"Bank Transfer","note":"Annual service + gas top-up","id":19},
-  {"date":today(-12),"desc":"ZESCO prepaid electricity units","cat":"Utilities","amount":2000,"payment":"Digital Wallet","note":"","id":20},
+  {"date":today(-12),"desc":"Prepaid electricity units","cat":"Utilities","amount":2000,"payment":"Digital Wallet","note":"","id":20},
   {"date":today(-12),"desc":"Market run taxi","cat":"Transport","amount":105,"payment":"Cash","note":"","id":21},
   {"date":today(-10),"desc":"Charcoal for grill","cat":"Supplies","amount":220,"payment":"Cash","note":"","id":22},
   {"id":23,"date":today(-9),"desc":"Invoice LWSC-77412","cat":"Utilities","amount":850,"payment":"Other","note":"Imported from LWSC-77412.pdf"},
@@ -1996,7 +1996,7 @@ const seed={
   {"date":today(-7),"desc":"LPG gas refill (48kg)","cat":"Utilities","amount":1250,"payment":"Digital Wallet","note":"","id":28},
   {"date":today(-6),"desc":"Cleaning supplies","cat":"Supplies","amount":480,"payment":"Cash","note":"","id":29},
   {"date":today(-6),"desc":"Market run taxi","cat":"Transport","amount":100,"payment":"Cash","note":"","id":30},
-  {"date":today(-5),"desc":"ZESCO prepaid electricity units","cat":"Utilities","amount":1900,"payment":"Digital Wallet","note":"","id":31},
+  {"date":today(-5),"desc":"Prepaid electricity units","cat":"Utilities","amount":1900,"payment":"Digital Wallet","note":"","id":31},
   {"date":today(-4),"desc":"Gas stove burner replacement","cat":"Repairs","amount":350,"payment":"Cash","note":"Grill station burner","id":32},
   {"date":today(-3),"desc":"Charcoal for grill","cat":"Supplies","amount":220,"payment":"Cash","note":"","id":33},
   {"date":today(-3),"desc":"Market run taxi","cat":"Transport","amount":95,"payment":"Cash","note":"","id":34},
@@ -2359,7 +2359,28 @@ db.invoices=db.invoices||[];
 if(COLLECTIONS.every(k=>Array.isArray(db[k])&&db[k].length===0))db=JSON.parse(JSON.stringify(seed));
 function save(){try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){alert('Could not save: browser storage is full or blocked.')}}
 function today(offset=0){let d=new Date();d.setDate(d.getDate()+offset);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function money(n){let c=db.setup.currency||'ZMW';let sym={USD:'$',EUR:'€',GBP:'£',ZAR:'R',ZMW:'K',KES:'KSh',NGN:'₦',GHS:'GH₵',BWP:'P',CAD:'C$',AUD:'A$',TZS:'TSh',UGX:'USh',RWF:'RF',MWK:'MK',MZN:'MT'}[c]||c;return sym+' '+Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
+/* world currencies, shared by Calytron apps */
+const CW_C={Algeria:'DZD',Angola:'AOA',Botswana:'BWP',Cameroon:'XAF','DR Congo':'CDF',Egypt:'EGP',Ethiopia:'ETB',Ghana:'GHS','Ivory Coast':'XOF',Kenya:'KES',Malawi:'MWK',Mauritius:'MUR',Morocco:'MAD',Mozambique:'MZN',Namibia:'NAD',Nigeria:'NGN',Rwanda:'RWF',Senegal:'XOF','South Africa':'ZAR',Tanzania:'TZS',Tunisia:'TND',Uganda:'UGX',Zambia:'ZMW',Zimbabwe:'USD',
+Austria:'EUR',Belgium:'EUR',Bulgaria:'EUR',Croatia:'EUR',Cyprus:'EUR',Czechia:'CZK',Denmark:'DKK',Estonia:'EUR',Finland:'EUR',France:'EUR',Germany:'EUR',Greece:'EUR',Hungary:'HUF',Iceland:'ISK',Ireland:'EUR',Italy:'EUR',Latvia:'EUR',Lithuania:'EUR',Luxembourg:'EUR',Malta:'EUR',Netherlands:'EUR',Norway:'NOK',Poland:'PLN',Portugal:'EUR',Romania:'RON',Serbia:'RSD',Slovakia:'EUR',Slovenia:'EUR',Spain:'EUR',Sweden:'SEK',Switzerland:'CHF',Ukraine:'UAH','United Kingdom':'GBP',
+Argentina:'ARS',Bolivia:'BOB',Brazil:'BRL',Canada:'CAD',Chile:'CLP',Colombia:'COP','Costa Rica':'CRC','Dominican Republic':'DOP',Ecuador:'USD',Guatemala:'GTQ',Jamaica:'JMD',Mexico:'MXN',Panama:'USD',Peru:'PEN','Trinidad and Tobago':'TTD','United States':'USD',Uruguay:'UYU',
+Bahrain:'BHD',Bangladesh:'BDT',China:'CNY','Hong Kong':'HKD',India:'INR',Indonesia:'IDR',Israel:'ILS',Japan:'JPY',Jordan:'JOD',Kazakhstan:'KZT',Kuwait:'KWD',Malaysia:'MYR',Nepal:'NPR',Oman:'OMR',Pakistan:'PKR',Philippines:'PHP',Qatar:'QAR','Saudi Arabia':'SAR',Singapore:'SGD','South Korea':'KRW','Sri Lanka':'LKR',Taiwan:'TWD',Thailand:'THB',Turkey:'TRY','United Arab Emirates':'AED',Vietnam:'VND',
+Australia:'AUD',Fiji:'FJD','New Zealand':'NZD','Papua New Guinea':'PGK'};
+const CW_TZ={'Africa/Lusaka':'Zambia','Africa/Johannesburg':'South Africa','Africa/Nairobi':'Kenya','Africa/Lagos':'Nigeria','Africa/Accra':'Ghana','Africa/Cairo':'Egypt','Africa/Dar_es_Salaam':'Tanzania','Africa/Kampala':'Uganda','Africa/Harare':'Zimbabwe','Africa/Maputo':'Mozambique','Africa/Gaborone':'Botswana','Africa/Windhoek':'Namibia','Africa/Blantyre':'Malawi','Africa/Kigali':'Rwanda','Africa/Casablanca':'Morocco','Africa/Tunis':'Tunisia','Africa/Algiers':'Algeria','Africa/Addis_Ababa':'Ethiopia','Africa/Abidjan':'Ivory Coast','Africa/Dakar':'Senegal','Africa/Luanda':'Angola','Africa/Kinshasa':'DR Congo','Africa/Douala':'Cameroon','Indian/Mauritius':'Mauritius',
+'Europe/London':'United Kingdom','Europe/Dublin':'Ireland','Europe/Paris':'France','Europe/Berlin':'Germany','Europe/Madrid':'Spain','Europe/Rome':'Italy','Europe/Amsterdam':'Netherlands','Europe/Brussels':'Belgium','Europe/Lisbon':'Portugal','Europe/Vienna':'Austria','Europe/Zurich':'Switzerland','Europe/Stockholm':'Sweden','Europe/Oslo':'Norway','Europe/Copenhagen':'Denmark','Europe/Helsinki':'Finland','Europe/Warsaw':'Poland','Europe/Prague':'Czechia','Europe/Budapest':'Hungary','Europe/Bucharest':'Romania','Europe/Athens':'Greece','Europe/Istanbul':'Turkey','Europe/Kiev':'Ukraine','Europe/Kyiv':'Ukraine','Europe/Belgrade':'Serbia','Europe/Sofia':'Bulgaria','Europe/Zagreb':'Croatia',
+'Asia/Dubai':'United Arab Emirates','Asia/Riyadh':'Saudi Arabia','Asia/Qatar':'Qatar','Asia/Kuwait':'Kuwait','Asia/Bahrain':'Bahrain','Asia/Muscat':'Oman','Asia/Amman':'Jordan','Asia/Jerusalem':'Israel','Asia/Karachi':'Pakistan','Asia/Kolkata':'India','Asia/Calcutta':'India','Asia/Dhaka':'Bangladesh','Asia/Colombo':'Sri Lanka','Asia/Kathmandu':'Nepal','Asia/Bangkok':'Thailand','Asia/Ho_Chi_Minh':'Vietnam','Asia/Jakarta':'Indonesia','Asia/Kuala_Lumpur':'Malaysia','Asia/Singapore':'Singapore','Asia/Manila':'Philippines','Asia/Hong_Kong':'Hong Kong','Asia/Shanghai':'China','Asia/Taipei':'Taiwan','Asia/Seoul':'South Korea','Asia/Tokyo':'Japan','Asia/Almaty':'Kazakhstan','Istanbul':'Turkey',
+'Pacific/Auckland':'New Zealand','Pacific/Fiji':'Fiji','Pacific/Port_Moresby':'Papua New Guinea','America/Toronto':'Canada','America/Vancouver':'Canada','America/Edmonton':'Canada','America/Winnipeg':'Canada','America/Halifax':'Canada','America/Regina':'Canada','America/Mexico_City':'Mexico','America/Sao_Paulo':'Brazil','America/Argentina/Buenos_Aires':'Argentina','America/Santiago':'Chile','America/Bogota':'Colombia','America/Lima':'Peru','America/Guayaquil':'Ecuador','America/Panama':'Panama','America/Jamaica':'Jamaica','America/Costa_Rica':'Costa Rica','America/Guatemala':'Guatemala','America/Montevideo':'Uruguay','America/La_Paz':'Bolivia','America/Port_of_Spain':'Trinidad and Tobago','America/Santo_Domingo':'Dominican Republic'};
+const CW_SYM={USD:'$',EUR:'€',GBP:'£',JPY:'¥',CNY:'CN¥',INR:'₹',AUD:'A$',CAD:'C$',NZD:'NZ$',CHF:'CHF',SEK:'kr',NOK:'kr',DKK:'kr',PLN:'zł',CZK:'Kč',HUF:'Ft',RON:'lei',TRY:'₺',ILS:'₪',EGP:'E£',ZAR:'R',NGN:'₦',GHS:'GH₵',KES:'KSh',TZS:'TSh',UGX:'USh',RWF:'RF',ZMW:'K',MWK:'MK',MZN:'MT',BWP:'P',NAD:'N$',SGD:'S$',MYR:'RM',THB:'฿',IDR:'Rp',PHP:'₱',VND:'₫',KRW:'₩',HKD:'HK$',TWD:'NT$',BRL:'R$',MXN:'Mex$',PEN:'S/',PKR:'Rs',LKR:'Rs',BDT:'৳',NPR:'Rs',UAH:'₴',KZT:'₸',CRC:'₡',AED:'AED',SAR:'SAR',QAR:'QAR'};
+const CW_CODES=[...new Set(['USD','EUR','GBP',...Object.values(CW_C)])].sort((a,b)=>({USD:0,EUR:1,GBP:2}[a]??9)-({USD:0,EUR:1,GBP:2}[b]??9)||a.localeCompare(b));
+function cwName(c){try{return new Intl.DisplayNames(['en'],{type:'currency'}).of(c)||c}catch(e){return c}}
+function cwSym(c){return CW_SYM[c]||c}
+function cwDec(c){try{return new Intl.NumberFormat('en',{style:'currency',currency:c}).resolvedOptions().maximumFractionDigits}catch(e){return 2}}
+function cwDetect(){try{const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';let ctry=CW_TZ[tz];if(!ctry&&/^Australia\//.test(tz))ctry='Australia';if(!ctry&&/^America\/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage|Detroit|Boise|Indiana|Kentucky|Menominee|North_Dakota|Juneau)/.test(tz)||tz==='Pacific/Honolulu')ctry='United States';if(!ctry){const r=(navigator.language||'').split('-')[1];if(r)ctry=new Intl.DisplayNames(['en'],{type:'region'}).of(r.toUpperCase())}return CW_C[ctry]||'USD'}catch(e){return 'USD'}}
+function cwCountry(){try{const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';if(CW_TZ[tz])return CW_TZ[tz];if(/^Australia\//.test(tz))return 'Australia';if(/^America\/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage|Detroit|Boise)/.test(tz))return 'United States'}catch(e){}return ''}
+function cwCurOpts(sel){const s=sel||'';const list=CW_CODES.includes(s)||!s?CW_CODES:[s,...CW_CODES];return list.map(c=>'<option value="'+c+'"'+(c===s?' selected':'')+'>'+c+' · '+String(cwName(c)).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</option>').join('')}
+function cwCountryOpts(sel){const names=Object.keys(CW_C).sort();const list=!sel||names.includes(sel)?names:[sel,...names];return '<option value="">Select country…</option>'+list.map(n=>'<option'+(n===sel?' selected':'')+'>'+n.replace(/&/g,'&amp;')+'</option>').join('')}
+function cwFmt(n,c){c=c||cwDetect();const d=cwDec(c);return cwSym(c)+' '+Number(n||0).toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d})}
+
+function money(n){return cwFmt(n,db.setup.currency||cwDetect())}
 function sum(a,fn){return a.reduce((s,x)=>s+(fn?fn(x):x),0)}
 function revenue(){return sum(db.sales,x=>x.qty*x.price-(x.discount||0))}
 function expenses(){return sum(db.expenses,x=>+x.amount||0)}
@@ -2437,7 +2458,7 @@ const MENU_TEMPLATES={
 };
 function freshBuilderItem(cat,name=''){return {id:'b'+Date.now()+Math.random().toString(36).slice(2),name,cat,price:'',target:Math.round(100-(db.setup.foodTarget||30)),pack:'',other:'',raw:'',description:'',tags:[],popular:0,featured:false};}
 function openMenuBuilder(){
- menuBuilderState={name:(db.setup.restaurant||'Restaurant')+' Menu',type:'Modern Casual',currency:db.setup.currency||'ZMW',sections:[],items:[],step:1,query:'',costDish:null};
+ menuBuilderState={name:(db.setup.restaurant||'Restaurant')+' Menu',type:'Modern Casual',currency:db.setup.currency||cwDetect(),sections:[],items:[],step:1,query:'',costDish:null};
  applyMenuTemplate('Modern Casual',true); renderMenuBuilder();
 }
 function applyMenuTemplate(type,initial=false){
@@ -2723,7 +2744,7 @@ function parseInvoiceText(text,fileName){
    const m=line.match(/^(.+?)\s+(\d+(?:\.\d+)?)\s+(?:x\s+)?(?:K|ZMW|USD|\$|R|NGN|₦)?\s*(\d[\d,]*(?:\.\d{1,2})?)\s*$/i);
    if(m && !/total|subtotal|tax|vat/i.test(line)) items.push({name:m[1].trim(),qty:parseFloat(m[2]),unitCost:parseFloat(m[3].replace(/,/g,''))});
  });
- return {supplier,number,date:date&&/^\d{4}-\d{2}-\d{2}$/.test(date)?date:today(),currency:db.setup.currency,total,category:/electric|water|internet|rent|utility|zesco/i.test(t)?'Operating Expense':'Food Purchase',items};
+ return {supplier,number,date:date&&/^\d{4}-\d{2}-\d{2}$/.test(date)?date:today(),currency:db.setup.currency,total,category:/electric|water|internet|rent|utility|power|energy|zesco/i.test(t)?'Operating Expense':'Food Purchase',items};
 }
 function showInvoiceReview(d){
  const posted=d.status==='posted';
@@ -2740,7 +2761,7 @@ function showInvoiceReview(d){
     ${field('invDate','Date',d.date,'date')}
     ${select('invType','Record As',d.category,['Food Purchase','Operating Expense'])}
     ${field('invTotal','Total',d.total,'number')}
-    ${select('invCurrency','Currency',d.currency,['USD','EUR','GBP','ZAR','ZMW','KES','NGN','GHS','BWP','CAD','AUD','TZS','UGX','RWF','MWK','MZN'])}
+    ${`<div class="field"><label>Currency</label><select name="invCurrency">${cwCurOpts(d.currency||db.setup.currency||cwDetect())}</select></div>`}
    </div>
   </div>
  </div>
@@ -2811,7 +2832,7 @@ function closeModal(){stopCamera();document.getElementById('modal').classList.re
 function toggleSide(){document.getElementById('sidebar').classList.toggle('open')}
 function openQuick(){openModal('Quick Entry',`<div class="grid two"><button class="btn" onclick="closeModal();openForm('sale')">＋ Sale</button><button class="btn" onclick="closeModal();openForm('expense')">− Expense</button><button class="btn" onclick="closeModal();openForm('waste')">♲ Waste</button><button class="btn" onclick="closeModal();openForm('cash')">▣ Cash Reconciliation</button><button class="btn" onclick="closeModal();openForm('purchase')">↗ Purchase</button><button class="btn" onclick="closeModal();openForm('labor')">♙ Labor</button></div>`)}
 function openSetup(){let s=db.setup;openModal('Restaurant Setup',`<form onsubmit="saveSetup(event)" class="formGrid">
-${field('restaurant','Restaurant Name',s.restaurant)}${field('owner','Owner Name',s.owner)}${field('country','Country',s.country)}${select('currency','Default Currency',s.currency,['USD','EUR','GBP','ZAR','ZMW','KES','NGN','GHS','BWP','CAD','AUD','TZS','UGX','RWF','MWK','MZN'])}${field('type','Restaurant Type',s.type)}${field('locations','Locations',s.locations,'number')}${field('employees','Employees',s.employees,'number')}${field('foodTarget','Food Cost Target %',s.foodTarget,'number')}${field('laborTarget','Labor Cost Target %',s.laborTarget,'number')}${field('profitTarget','Profit Target %',s.profitTarget,'number')}
+${field('restaurant','Restaurant Name',s.restaurant)}${field('owner','Owner Name',s.owner)}<div class="field"><label>Country</label><select name="country" onchange="(function(el){var c=CW_C[el.value];if(c){var f=el.form.elements.currency;if(f)f.value=c}})(this)">${cwCountryOpts(s.country||cwCountry())}</select></div><div class="field"><label>Default Currency</label><select name="currency">${cwCurOpts(s.currency||cwDetect())}</select></div>${field('type','Restaurant Type',s.type)}${field('locations','Locations',s.locations,'number')}${field('employees','Employees',s.employees,'number')}${field('foodTarget','Food Cost Target %',s.foodTarget,'number')}${field('laborTarget','Labor Cost Target %',s.laborTarget,'number')}${field('profitTarget','Profit Target %',s.profitTarget,'number')}
 <div style="grid-column:1/-1;display:flex;justify-content:flex-end;gap:8px"><button type="button" class="btn" onclick="closeModal()">Cancel</button><button class="btn primary">Save Setup</button></div></form>`)}
 const OPTIONAL_FIELDS=['ref','discount','note','contact','items','overtime','other','pack','delivery','till','location','staff'];
 function field(n,l,v='',type='text',req=true){if(OPTIONAL_FIELDS.includes(n))req=false;return `<div class="field"><label>${l}</label><input name="${n}" type="${type}" ${type==='number'?'step="any" min="0"':''} value="${esc(v)}" ${req?'required':''}></div>`}
@@ -3297,7 +3318,7 @@ cash:['Closing the till','At the end of the day enter opening cash, takings and 
 suppliers:['Your suppliers','Keep each supplier\u2019s contact and the items they supply in one place.',3],
 invoices:['Invoice Center','Upload a clear photo. Check every line before posting, because the reading is only a draft.',6],
 reports:['Reports','Choose a period above, then print a report for your records.',5],
-profit:['Profit Center','See where every K100 of sales goes and which dishes are losing money.',5],
+profit:['Profit Center','See where every 100 of sales goes and which dishes are losing money.',5],
 alerts:['Alerts','Warnings about low stock and margins below target appear here.',5],
 settings:['Settings and backup','Download a backup every month, add your logo, and sign out here on shared devices.',7]};
 const KEY='calytron_hints_off',off=()=>{try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}};
