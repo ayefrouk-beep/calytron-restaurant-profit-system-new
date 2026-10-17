@@ -544,8 +544,8 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
   btn.classList.add('busy');btn.disabled=true;msg.classList.remove('show');
   var body=JSON.stringify({full_name:v.full_name,phone:v.phone,email:v.email,business:v.business||null,business_type:v.business_type||null,source:(form.growth.checked?'sales-site+growth-ai':'sales-site'),page:location.href.slice(0,300)});
   var ctl=('AbortController' in window)?new AbortController():null,t=setTimeout(function(){ctl&&ctl.abort()},15000);
-  fetch(SB+'/rest/v1/demo_requests',{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:body,signal:ctl?ctl.signal:undefined})
-  .then(function(r){clearTimeout(t);if(!r.ok)throw new Error('http '+r.status);
+  fetch(SB+'/rest/v1/demo_requests',{method:'POST',headers:{'apikey':KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:body,signal:ctl?ctl.signal:undefined})
+  .then(function(r){clearTimeout(t);if(!r.ok){try{r.text().then(function(x){console.warn('demo request failed',r.status,x)})}catch(e){}throw new Error('http '+r.status)}
     document.getElementById('doneName').textContent=v.full_name.split(' ')[0];
     form.style.display='none';document.getElementById('done').classList.add('show');
     var c=document.getElementById('formCard');if(c.scrollIntoView&&window.innerWidth<900)c.scrollIntoView({behavior:'smooth',block:'center'});
