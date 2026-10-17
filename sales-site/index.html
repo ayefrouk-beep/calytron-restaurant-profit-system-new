@@ -545,13 +545,13 @@ footer{background:#041712;color:#9db3a8;padding:48px 0 40px;font-size:13px}
   var body=JSON.stringify({full_name:v.full_name,phone:v.phone,email:v.email,business:v.business||null,business_type:v.business_type||null,source:(form.growth.checked?'sales-site+growth-ai':'sales-site'),page:location.href.slice(0,300)});
   var ctl=('AbortController' in window)?new AbortController():null,t=setTimeout(function(){ctl&&ctl.abort()},15000);
   fetch(SB+'/rest/v1/demo_requests',{method:'POST',headers:{'apikey':KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:body,signal:ctl?ctl.signal:undefined})
-  .then(function(r){clearTimeout(t);if(!r.ok){try{r.text().then(function(x){console.warn('demo request failed',r.status,x)})}catch(e){}throw new Error('http '+r.status)}
+  .then(function(r){clearTimeout(t);if(!r.ok){return r.text().then(function(x){console.warn('demo request failed',r.status,x);var e=new Error('http '+r.status);e.detail=r.status+' '+String(x).slice(0,160);throw e},function(){var e=new Error('http '+r.status);e.detail=String(r.status);throw e})}
     document.getElementById('doneName').textContent=v.full_name.split(' ')[0];
     form.style.display='none';document.getElementById('done').classList.add('show');
     var c=document.getElementById('formCard');if(c.scrollIntoView&&window.innerWidth<900)c.scrollIntoView({behavior:'smooth',block:'center'});
-  }).catch(function(){
-    clearTimeout(t);btn.classList.remove('busy');btn.disabled=false;
-    msg.innerHTML='We could not send your request just now. Please try again, or email us at <a href="mailto:Sales@calytron.co?subject=Demo%20access%20request&body='+encodeURIComponent('Name: '+v.full_name+'\nPhone: '+v.phone+'\nEmail: '+v.email+'\nRestaurant: '+v.business)+'" style="text-decoration:underline">Sales@calytron.co</a>.';
+  }).catch(function(err){
+    clearTimeout(t);btn.classList.remove('busy');btn.disabled=false;var why=(err&&(err.detail||err.message))||'network';
+    msg.innerHTML='We could not send your request just now. Please try again, or email us at <a href="mailto:Sales@calytron.co?subject=Demo%20access%20request&body='+encodeURIComponent('Name: '+v.full_name+'\nPhone: '+v.phone+'\nEmail: '+v.email+'\nRestaurant: '+v.business)+'" style="text-decoration:underline">Sales@calytron.co</a>.<br><small style="opacity:.7">Technical detail: '+String(why).replace(/[<>&]/g,' ')+'</small>';
     msg.classList.add('show');
   });
  });
